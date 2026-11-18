@@ -34,3 +34,5 @@ export function resolveSiteUrl(env: SiteEnv): URL {
 export function isIndexable(env: SiteEnv): boolean {
   return !env.VERCEL_ENV || env.VERCEL_ENV === "production";
 }
+
+const inutilisee = 1;
