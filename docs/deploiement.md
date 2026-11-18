@@ -14,6 +14,16 @@ Raisons : PostgreSQL est managé, chaque preview a sa propre branche de base, Ne
 
 Tarifs relevés sur neon.com/pricing le 2026-11-18 : Vercel Hobby 0 $. Neon Launch facture à l'usage : 0,106 $ par CU-heure de calcul, 0,35 $ par Go-mois de stockage, 0,09 $ par Go-mois de snapshots. Neon estime une petite base qui s'éteint au repos à environ 15 $/mois.
 
+### Alternative : Cloudflare Workers
+
+Écartée pour la phase 1, à reconsidérer au passage commercial (V1.1) ou si Vercel devient trop cher. Relevé le 2026-11-18 :
+
+- Next.js passe par l'adaptateur [OpenNext](https://developers.cloudflare.com/workers/framework-guides/web-apps/opennext/), avec le drapeau `nodejs_compat`. La page Cloudflare oriente désormais les nouveaux projets vers vinext et garde OpenNext pour les applications existantes ;
+- **Bloquant à vérifier** : la doc Cloudflare indique que le middleware Node.js de Next.js n'est pas encore géré, et des sources communautaires disent qu'OpenNext ne reconnaît pas `proxy.ts` (issue #1277). Le projet s'appuie sur `src/proxy.ts` ;
+- Prisma sur Workers demande un adaptateur de pilote et une configuration spécifique (sources communautaires, à confirmer dans la doc de Prisma) ;
+- tarifs ([doc Cloudflare](https://developers.cloudflare.com/workers/platform/pricing/)) : plan gratuit limité à 100 000 requêtes par jour ; plan payant à 5 $/mois minimum, 10 millions de requêtes incluses, sans frais de bande passante. Les conditions d'usage commercial sont à lire dans les CGU Cloudflare ;
+- la migration réécrirait `vercel.json`, `.github/workflows/deploiement.yml` et la logique `noindex` fondée sur `VERCEL_ENV` (T10), et il faudrait remplacer les branches de preview Neon automatiques de Vercel.
+
 ## Mise en place (une fois, après la création du dépôt GitHub)
 
 1. **Vercel** : importer le dépôt. Next.js est détecté, et `vercel.json` fixe la région et la commande de build.
