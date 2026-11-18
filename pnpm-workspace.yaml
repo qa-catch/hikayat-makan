@@ -1,0 +1,10 @@
+ignoredBuiltDependencies:
+  - "@parcel/watcher"
+  - "@swc/core"
+  - sharp
+  - unrs-resolver
+onlyBuiltDependencies:
+  # prisma : contrôle de version Node (preinstall, sans réseau).
+  # @prisma/engines : télécharge le moteur de migration depuis binaries.prisma.sh.
+  - "@prisma/engines"
+  - prisma

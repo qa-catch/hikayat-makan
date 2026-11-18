@@ -1,0 +1,11 @@
+// Phase 1 : aucun modèle métier (plan T4). Les modèles arrivent en phase 3.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/server/db/generated"
+}
+
+// L'URL est dans prisma.config.ts (Prisma 7).
+datasource db {
+  provider = "postgresql"
+}

@@ -1,0 +1,22 @@
+# PostgreSQL local (développement et tests). Mot de passe lu dans `.env`, jamais dans le dépôt.
+services:
+  db:
+    image: postgres:18.7-alpine
+    environment:
+      POSTGRES_USER: hikayat
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD manquant dans .env}
+      POSTGRES_DB: hikayat
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      # Image 18+ : les données vont dans /var/lib/postgresql/<majeure>/docker.
+      - db-data:/var/lib/postgresql
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hikayat -d hikayat"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  db-data:

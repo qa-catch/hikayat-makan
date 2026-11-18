@@ -1,0 +1,47 @@
+name: Fumée en production
+
+# Vercel signale chaque déploiement à GitHub (événement deployment_status). On ne teste que la
+# production : les previews sont protégées par l'authentification Vercel. Lancement manuel possible.
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "URL du site à tester (https://…)"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  fumee:
+    name: Test de fumée
+    # Nom d'environnement « Production » : à confirmer au premier déploiement (docs/deploiement.md).
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # Domaine public de production (variable de dépôt) : l'URL propre à chaque déploiement
+      # peut être protégée par Vercel. Jamais interpolée dans un script : passée par l'environnement.
+      E2E_BASE_URL: ${{ inputs.url || vars.PRODUCTION_URL }}
+    steps:
+      - name: Vérifier l'URL cible
+        run: |
+          case "$E2E_BASE_URL" in
+            https://*) echo "Cible : $E2E_BASE_URL" ;;
+            *) echo "::error::Définir la variable de dépôt PRODUCTION_URL (https://…)"; exit 1 ;;
+          esac
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: corepack enable
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright test e2e/smoke.spec.ts e2e/seo.spec.ts
