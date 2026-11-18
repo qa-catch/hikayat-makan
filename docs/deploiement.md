@@ -2,17 +2,18 @@
 
 ## Décision
 
-Décision 6 du plan produit, tranchée le 2026-11-18 : **Vercel Hobby**, région `fra1` (Francfort), et **Neon Launch**, région `aws-eu-central-1` (Francfort). Ce sont les régions les plus proches du Maroc qui existent chez les deux fournisseurs : Neon n'a pas de région à Paris.
+Décision 6 du plan produit, tranchée le 2026-11-18 : **Vercel Hobby**, région `fra1` (Francfort), et **Neon Free**, région `aws-eu-central-1` (Francfort). Ce sont les régions les plus proches du Maroc qui existent chez les deux fournisseurs : Neon n'a pas de région à Paris.
 
-Raisons : PostgreSQL est managé, chaque preview a sa propre branche de base, Next.js est géré nativement et Neon fait des sauvegardes quotidiennes planifiées. Render et Railway ont été écartés. Chez Render, la base d'une preview n'est séparée qu'en workspace Pro, et il n'y a pas de sauvegarde quotidienne planifiée. Chez Railway, PostgreSQL n'est pas managé et il n'y a pas de SLA.
+Raisons : PostgreSQL est managé, chaque preview a sa propre branche de base, Next.js est géré nativement et Neon garde un historique de restauration. Render et Railway ont été écartés. Chez Render, la base d'une preview n'est séparée qu'en workspace Pro, et il n'y a pas de sauvegarde quotidienne planifiée. Chez Railway, PostgreSQL n'est pas managé et il n'y a pas de SLA.
 
 À revoir si :
 
+- des données réelles arrivent en base (phase 3) : passer à **Neon Launch** _avant_, pour avoir 7 jours d'historique et des snapshots quotidiens planifiés ;
 - le site devient commercial (mise en avant payante, V1.1). Les CGU Vercel réservent Hobby à un usage « personnel ou non commercial » : il faudra passer à Pro, 20 $/mois par siège ;
 - la facture dépasse celle d'un VPS ;
 - des données personnelles arrivent en base (phase 3). Une branche de preview Neon copie les données de la production : il faudra alors des previews sans données réelles.
 
-Tarifs relevés sur neon.com/pricing le 2026-11-18 : Vercel Hobby 0 $. Neon Launch facture à l'usage : 0,106 $ par CU-heure de calcul, 0,35 $ par Go-mois de stockage, 0,09 $ par Go-mois de snapshots. Neon estime une petite base qui s'éteint au repos à environ 15 $/mois.
+Tarifs relevés sur neon.com/pricing le 2026-11-18 : Vercel Hobby 0 $. Neon Free : 0 $, 1 Go de stockage par projet, 100 CU-heures par mois, 10 branches par projet, 6 h d'historique de restauration, 1 snapshot manuel ; un dépassement bloque les écritures sans facturer ([plans Neon](https://neon.com/docs/introduction/plans)). Neon Launch, pour plus tard, facture à l'usage : 0,106 $ par CU-heure de calcul, 0,35 $ par Go-mois de stockage, 0,09 $ par Go-mois de snapshots, soit environ 15 $/mois pour une petite base qui s'éteint au repos.
 
 ### Alternative : Cloudflare Workers
 
@@ -29,7 +30,7 @@ Tarifs relevés sur neon.com/pricing le 2026-11-18 : Vercel Hobby 0 $. Neon Laun
 1. **Vercel** : importer le dépôt. Next.js est détecté, et `vercel.json` fixe la région et la commande de build.
 2. **Neon** : l'ajouter depuis le Vercel Marketplace avec ces réglages :
    - région AWS Frankfurt ;
-   - plan Launch. S'il n'est pas proposé par cette voie, utiliser l'intégration gérée par Neon ;
+   - plan Free. S'il n'est pas proposé par cette voie, utiliser l'intégration gérée par Neon ;
    - environnements Production et Preview ;
    - sous « Create database branch for deployment », cocher **Preview**. Chaque preview reçoit alors sa branche `preview/<branche>`, et la production garde la branche par défaut.
 3. **Variables** :
@@ -37,13 +38,13 @@ Tarifs relevés sur neon.com/pricing le 2026-11-18 : Vercel Hobby 0 $. Neon Laun
    - ajouter `VERCEL_PREVIEW_FEEDBACK_ENABLED=0` pour l'environnement Preview. Cela coupe la toolbar Vercel, que la CSP bloquerait ;
    - laisser cochée « Enable access to System Environment Variables » : le build lit `VERCEL_ENV` et `VERCEL_PROJECT_PRODUCTION_URL` (voir [Indexation](#indexation-t10)) ;
    - `SITE_URL` (optionnelle sur Vercel) : origine canonique, `https://…` sans chemin. À défaut, Vercel fournit son plus court domaine de production personnalisé, sinon le domaine `vercel.app`.
-4. **Sauvegarde quotidienne** : dans Neon, planifier des snapshots quotidiens de la branche de production, gardés au plus 35 jours. Exemple tiré de la doc, rétention de 7 jours :
+4. **Sauvegarde** : le plan Free n'a **pas** de snapshot quotidien planifié. On dispose de 6 h d'historique (restauration à un instant donné) et d'un snapshot manuel. C'est suffisant tant que la base ne contient aucune donnée réelle (phase 1). **Avant la phase 3**, passer à Launch et planifier les snapshots. Exemple tiré de la doc Neon, rétention de 7 jours :
 
    ```bash
    neon snapshots schedule set --branch main --frequency daily --hour 23 --retention 604800
    ```
 
-   En plus, l'historique de Neon Launch permet une restauration à un instant donné, jusqu'à 7 jours en arrière (1 jour par défaut).
+   Launch permet aussi une restauration à un instant donné jusqu'à 7 jours en arrière.
 
 5. **Protection des déploiements** : Standard Protection. Les previews sont protégées et le domaine de production reste public.
 6. **GitHub** : créer la variable de dépôt `PRODUCTION_URL` (`https://…`, domaine public de production, égal à l'origine canonique). Le workflow `.github/workflows/deploiement.yml` s'en sert.
@@ -104,7 +105,7 @@ Vercel sert tout en HTTPS.
 ## Acceptation T9
 
 - [ ] `/ar` répond en HTTPS en production : workflow « Fumée en production » vert.
-- [ ] Une sauvegarde quotidienne est active : la planification est visible dans Neon et un premier snapshot existe le lendemain.
+- [ ] Sauvegarde : **écart assumé** avec le critère « sauvegarde quotidienne » du plan (Neon Free n'en a pas). À la place, une restauration à un instant donné est testée une fois dans les 6 h d'historique. La sauvegarde quotidienne devient obligatoire en Launch avant la phase 3.
 - [ ] Un retour arrière a été exécuté une fois : déployer un changement anodin, faire le retour arrière, vérifier `/ar`, puis `vercel promote`. Le noter ci-dessous.
 
 | Date | Déploiement de départ | Retour vers | Vérification | Promote |
