@@ -29,4 +29,4 @@ Ordre : `pnpm lint` (0 warning toléré) → `pnpm typecheck` (lance `next typeg
 
 - Aucune anticipation des phases 2 et 3 ; aucun contenu historique sur Fès, aucun fait ni source inventé.
 - Aucun plugin ; tout skill est audité et inscrit dans `docs/skills-audit.md` avant usage.
-- Une tâche = une PR courte. Commits : Conventional Commits en français (`feat:`, `fix:`, `docs:`…), branches `t<N>-<sujet>`. Le dossier n'est pas encore un dépôt Git.
+- Une tâche = une PR courte. Commits : Conventional Commits en français (`feat:`, `fix:`, `docs:`…), branches `t<N>-<sujet>`. Dépôt : github.com/qa-catch/hikayat-makan (public) ; `main` est protégé : tout passe par une PR dont les contrôles Contrôles et gitleaks sont verts.
