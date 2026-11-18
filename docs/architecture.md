@@ -25,7 +25,7 @@ Navigateur ──► Vercel (fra1) ──► Next.js ──► Prisma 7 ──�
 
 - **Configuration** : `src/server/env.ts` valide `DATABASE_URL` (zod) et refuse de démarrer sinon ; les messages d'erreur ne reprennent jamais la valeur. `SITE_URL` est lue par `src/shared/seo/site.ts`, car `next.config.ts` l'importe aussi.
 - **Base** : un seul client, `src/server/db/client.ts`. Client généré dans `src/server/db/generated/` (ignoré par Git). Migrations : `prisma/migrations`, appliquées au build (`vercel.json`) via `DATABASE_URL_UNPOOLED`.
-- **Journalisation** : `src/server/logging/` (JSON, `requestId` par requête, masquage des secrets et données personnelles, limitation de débit sur `/api/v1/client-errors`).
+- **Journalisation** : `src/server/logging/` (JSON, `info` sur stdout, `warn` et `error` sur stderr, `requestId` par requête, masquage des secrets et données personnelles, limitation de débit sur `/api/v1/client-errors`).
 - **Santé** : `GET /api/v1/health` → 200 si la base répond, sinon 503.
 - **SEO** : métadonnées, canonique, Open Graph dans le HTML statique ; `noindex, nofollow` sur les previews et `/admin` (`next.config.ts`). Détails : `docs/deploiement.md`.
 - **Sécurité HTTP** : CSP de base, HSTS, `nosniff`, `Referrer-Policy` (`next.config.ts`).
