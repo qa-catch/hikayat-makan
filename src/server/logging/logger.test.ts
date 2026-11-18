@@ -1,11 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createLogger } from "./logger";
 import { runWithRequestId } from "./request-context";
 
 function capture() {
   const lines: string[] = [];
-  const sink = { write: (chunk: string) => void lines.push(chunk) };
-  const logger = createLogger({ out: sink, err: sink });
+  const sink = (line: string) => void lines.push(line);
+  const logger = createLogger({ info: sink, warn: sink, error: sink });
   return { logger, parsed: () => lines.map((l) => JSON.parse(l) as Record<string, unknown>) };
 }
 
@@ -32,20 +32,30 @@ describe("logger", () => {
     expect(parsed()[0]!.level).toBe(level.toUpperCase());
   });
 
-  it("envoie info sur stdout, warn et error sur stderr (niveau lu par Vercel)", () => {
-    const out: string[] = [];
-    const err: string[] = [];
+  it("passe chaque niveau à sa méthode console (niveau lu par Vercel)", () => {
+    const sinks = { info: [] as string[], warn: [] as string[], error: [] as string[] };
     const logger = createLogger({
-      out: { write: (chunk: string) => void out.push(chunk) },
-      err: { write: (chunk: string) => void err.push(chunk) },
+      info: (line) => void sinks.info.push(line),
+      warn: (line) => void sinks.warn.push(line),
+      error: (line) => void sinks.error.push(line),
     });
     logger.info({ module: "m", action: "a", message: "i" });
     logger.warn({ module: "m", action: "a", message: "w" });
     logger.error({ module: "m", action: "a", message: "e" });
     const levels = (lines: string[]) =>
       lines.map((l) => (JSON.parse(l) as { level: string }).level);
-    expect(levels(out)).toEqual(["INFO"]);
-    expect(levels(err)).toEqual(["WARN", "ERROR"]);
+    expect(levels(sinks.info)).toEqual(["INFO"]);
+    expect(levels(sinks.warn)).toEqual(["WARN"]);
+    expect(levels(sinks.error)).toEqual(["ERROR"]);
+    expect(sinks.error[0]).not.toMatch(/\n$/);
+  });
+
+  it("écrit par défaut via console.error pour une erreur", () => {
+    const spy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    createLogger().error({ module: "m", action: "a", message: "e" });
+    expect(spy).toHaveBeenCalledOnce();
+    expect(JSON.parse(spy.mock.calls[0]![0] as string)).toMatchObject({ level: "ERROR" });
+    spy.mockRestore();
   });
 
   it("ajoute le requestId du contexte de requête", () => {

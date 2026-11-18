@@ -1,4 +1,4 @@
-import pino, { type DestinationStream } from "pino";
+import pino from "pino";
 import { maskString, maskValue } from "./mask";
 import { getRequestId } from "./request-context";
 
@@ -17,14 +17,26 @@ export type Logger = {
   error(entry: LogEntry): void;
 };
 
-type LogStreams = { out: DestinationStream; err: DestinationStream };
+type Level = "info" | "warn" | "error";
+type LogSinks = Record<Level, (line: string) => void>;
+
+// Vercel déduit le niveau d'une ligne de la méthode `console.*` appelée, pas du flux ni du champ
+// `level` (vercel.com/kb/guide/add-structured-application-logs-to-vercel-functions) : une écriture
+// directe sur stderr reste « Info ». Chaque niveau passe donc par sa méthode console.
+const consoleSinks: LogSinks = {
+  info: (line) => console.log(line),
+  warn: (line) => console.warn(line),
+  error: (line) => console.error(line),
+};
 
 // JSON sans transport (donc sans thread) : champs du § 14. Seul ce wrapper est exporté : tout passe
-// par le masquage. Vercel classe une ligne selon son flux (stdout → Info, stderr → Error), pas selon
-// le champ `level` : `info` va sur stdout, `warn` et `error` sur stderr.
-export function createLogger(
-  streams: LogStreams = { out: pino.destination(1), err: pino.destination(2) },
-): Logger {
+// par le masquage.
+export function createLogger(sinks: LogSinks = consoleSinks): Logger {
+  const toSink = (level: Level) => ({
+    level,
+    // pino termine chaque ligne par « \n », que console ajoute déjà.
+    stream: { write: (chunk: string) => sinks[level](chunk.trimEnd()) },
+  });
   const base = pino(
     {
       base: undefined,
@@ -33,16 +45,10 @@ export function createLogger(
       formatters: { level: (label) => ({ level: label.toUpperCase() }) },
     },
     // `dedupe` : chaque ligne part seulement vers le flux de plus haut niveau qui l'accepte.
-    pino.multistream(
-      [
-        { level: "info", stream: streams.out },
-        { level: "warn", stream: streams.err },
-      ],
-      { dedupe: true },
-    ),
+    pino.multistream([toSink("info"), toSink("warn"), toSink("error")], { dedupe: true }),
   );
 
-  const write = (level: "info" | "warn" | "error", entry: LogEntry): void => {
+  const write = (level: Level, entry: LogEntry): void => {
     const requestId = entry.requestId ?? getRequestId();
     base[level](
       {
