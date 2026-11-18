@@ -1,0 +1,10 @@
+.next
+out
+build
+node_modules
+pnpm-lock.yaml
+next-env.d.ts
+# Documents produit : rédigés à la main
+PLAN_PHASE_1.md
+histoir_place_outOfScop.md
+src/server/db/generated
