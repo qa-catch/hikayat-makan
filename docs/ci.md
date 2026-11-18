@@ -2,9 +2,9 @@
 
 Workflow : `.github/workflows/ci.yml` (job **Contrôles** : lint, typecheck, format, tests, tests d'intégration, build, e2e). Toutes les actions sont épinglées par SHA ; Dependabot (`.github/dependabot.yml`) propose les mises à jour.
 
-## À faire une fois le dépôt sur GitHub
+## Réglages du dépôt (appliqués le 2026-11-18)
 
-Le dossier n'est pas encore un dépôt Git : ces réglages ne sont pas applicables avant. Remplacer `OWNER/REPO`, puis, après un premier run de la CI :
+Dépôt `qa-catch/hikayat-makan`, **public** : sur un dépôt privé en plan gratuit, GitHub refuse la protection de branche (HTTP 403). Commandes appliquées après le premier run vert de la CI (remplacer `OWNER/REPO` pour les rejouer) :
 
 ```bash
 # Protection de main : contrôle obligatoire, branche à jour, pas de push direct, admins inclus.
