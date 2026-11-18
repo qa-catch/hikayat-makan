@@ -4,7 +4,8 @@ import { runWithRequestId } from "./request-context";
 
 function capture() {
   const lines: string[] = [];
-  const logger = createLogger({ write: (chunk: string) => void lines.push(chunk) });
+  const sink = { write: (chunk: string) => void lines.push(chunk) };
+  const logger = createLogger({ out: sink, err: sink });
   return { logger, parsed: () => lines.map((l) => JSON.parse(l) as Record<string, unknown>) };
 }
 
@@ -29,6 +30,22 @@ describe("logger", () => {
     const { logger, parsed } = capture();
     logger[level]({ module: "m", action: "a", message: "x" });
     expect(parsed()[0]!.level).toBe(level.toUpperCase());
+  });
+
+  it("envoie info sur stdout, warn et error sur stderr (niveau lu par Vercel)", () => {
+    const out: string[] = [];
+    const err: string[] = [];
+    const logger = createLogger({
+      out: { write: (chunk: string) => void out.push(chunk) },
+      err: { write: (chunk: string) => void err.push(chunk) },
+    });
+    logger.info({ module: "m", action: "a", message: "i" });
+    logger.warn({ module: "m", action: "a", message: "w" });
+    logger.error({ module: "m", action: "a", message: "e" });
+    const levels = (lines: string[]) =>
+      lines.map((l) => (JSON.parse(l) as { level: string }).level);
+    expect(levels(out)).toEqual(["INFO"]);
+    expect(levels(err)).toEqual(["WARN", "ERROR"]);
   });
 
   it("ajoute le requestId du contexte de requête", () => {

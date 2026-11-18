@@ -17,9 +17,14 @@ export type Logger = {
   error(entry: LogEntry): void;
 };
 
-// JSON sur la sortie standard, sans transport (donc sans thread) : champs du § 14.
-// Seul ce wrapper est exporté : tout passe par le masquage.
-export function createLogger(destination?: DestinationStream): Logger {
+type LogStreams = { out: DestinationStream; err: DestinationStream };
+
+// JSON sans transport (donc sans thread) : champs du § 14. Seul ce wrapper est exporté : tout passe
+// par le masquage. Vercel classe une ligne selon son flux (stdout → Info, stderr → Error), pas selon
+// le champ `level` : `info` va sur stdout, `warn` et `error` sur stderr.
+export function createLogger(
+  streams: LogStreams = { out: pino.destination(1), err: pino.destination(2) },
+): Logger {
   const base = pino(
     {
       base: undefined,
@@ -27,7 +32,14 @@ export function createLogger(destination?: DestinationStream): Logger {
       timestamp: () => `,"timestamp":"${new Date().toISOString()}"`,
       formatters: { level: (label) => ({ level: label.toUpperCase() }) },
     },
-    destination,
+    // `dedupe` : chaque ligne part seulement vers le flux de plus haut niveau qui l'accepte.
+    pino.multistream(
+      [
+        { level: "info", stream: streams.out },
+        { level: "warn", stream: streams.err },
+      ],
+      { dedupe: true },
+    ),
   );
 
   const write = (level: "info" | "warn" | "error", entry: LogEntry): void => {
