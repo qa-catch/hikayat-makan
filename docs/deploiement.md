@@ -129,3 +129,13 @@ Vercel sert tout en HTTPS.
 Exécuté par l'API REST Vercel : `POST /v1/projects/{projectId}/rollback/{deploymentId}`, puis `POST /v10/projects/{projectId}/promote/{deploymentId}`, chacun avec le corps `{}` (sans corps, Vercel répond 415). Vérification : `GET /v13/deployments/{domaine de prod}` renvoie le déploiement servi.
 
 Sources (2026-11-18) : vercel.com/docs (regions, instant-rollback, cli/rollback, vercel-toolbar, cdn-security/encryption, deployment-protection, legal/terms), neon.com/docs (vercel-managed-integration, regions, guides/backup-restore, pricing), prisma.io/docs/orm/v7 (pgbouncer, prisma-config-reference).
+
+## Acceptation T10
+
+Vérifié le 2026-11-20, en lecture seule (requêtes GET et HEAD), sur la production (déploiement `2a441b0`, `https://hikayat-makan-pi.vercel.app`) et sur la preview `t9-retour-arriere` (`dpl_EGn3qjjrVX851y9CR3kFpLZoTkag`).
+
+- [x] **Le HTML serveur contient tout le contenu** : `/ar` répond 200, `<html lang="ar" dir="rtl">`, un seul `<main>`, titre, description, canonique et Open Graph présents dans la réponse sans JavaScript.
+- [x] **Production indexable** : ni `X-Robots-Tag` ni `<meta name="robots">` sur `/ar` ; `robots.txt` (`Allow: /`, ligne `Sitemap`) et `sitemap.xml` (`application/xml`, `urlset`, une `<loc>` : `/ar`) répondent 200.
+- [x] **`/admin` non indexable** : `/admin` et `/admin/connexion` renvoient `X-Robots-Tag: noindex, nofollow` en production.
+- [x] **Tests** : `e2e/smoke.spec.ts` et `e2e/seo.spec.ts` lancés contre la production : 7 réussis, 0 échec.
+- [~] **Prévisualisations non indexables** : vérifié à moitié. La preview est derrière la protection Vercel : toute requête reçoit un `302` vers l'authentification Vercel, avec `X-Robots-Tag: noindex` posé par Vercel. L'en-tête `noindex, nofollow` de `next.config.ts` n'a **pas** pu être observé sur une page réelle de la preview, faute du lien de contournement de la protection. Reste à faire : avec ce lien, `curl -sI "https://<preview>/ar" | grep -i x-robots-tag` doit renvoyer `noindex, nofollow`.
