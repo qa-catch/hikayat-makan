@@ -120,10 +120,12 @@ Vercel sert tout en HTTPS.
 - [x] `/ar` répond en HTTPS en production : workflow « Fumée en production » vert (run 44405940399, 2026-11-18, déploiement `74ae9a5`).
 - [x] Sauvegarde : **écart assumé** avec le critère « sauvegarde quotidienne » du plan (Neon Free n'en a pas). À la place, une restauration à un instant donné est testée une fois dans les 6 h d'historique. La sauvegarde quotidienne devient obligatoire en Launch avant la phase 3.
   - Testée le 2026-11-20 par l'API Neon : branche temporaire créée depuis `main` à 11:00 UTC (une heure en arrière), avec le même contenu que `main` (1 migration, table `_prisma_migrations`), puis supprimée. `main` n'a pas été touchée.
-- [ ] Un retour arrière a été exécuté une fois : déployer un changement anodin, faire le retour arrière, vérifier `/ar`, puis `vercel promote`. Le noter ci-dessous.
+- [x] Un retour arrière a été exécuté une fois : déployer un changement anodin, faire le retour arrière, vérifier `/ar`, puis `vercel promote`. Le noter ci-dessous.
 
-| Date | Déploiement de départ | Retour vers | Vérification | Promote |
-| ---- | --------------------- | ----------- | ------------ | ------- |
-|      |                       |             |              |         |
+| Date                 | Déploiement de départ    | Retour vers              | Vérification                                    | Promote                             |
+| -------------------- | ------------------------ | ------------------------ | ----------------------------------------------- | ----------------------------------- |
+| 2026-11-20 12:30 UTC | `dpl_CkbG2…` (`74ae9a5`) | `dpl_BPqUe…` (`d484c91`) | domaine de prod sur `dpl_BPqUe…`, `/ar` 200 RTL | `dpl_CkbG2…` rétabli, `/ar` 200 RTL |
+
+Exécuté par l'API REST Vercel : `POST /v1/projects/{projectId}/rollback/{deploymentId}`, puis `POST /v10/projects/{projectId}/promote/{deploymentId}`, chacun avec le corps `{}` (sans corps, Vercel répond 415). Vérification : `GET /v13/deployments/{domaine de prod}` renvoie le déploiement servi.
 
 Sources (2026-11-18) : vercel.com/docs (regions, instant-rollback, cli/rollback, vercel-toolbar, cdn-security/encryption, deployment-protection, legal/terms), neon.com/docs (vercel-managed-integration, regions, guides/backup-restore, pricing), prisma.io/docs/orm/v7 (pgbouncer, prisma-config-reference).
