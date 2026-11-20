@@ -77,6 +77,19 @@ Après chaque déploiement de production réussi, `.github/workflows/deploiement
 E2E_BASE_URL=https://… PW_CHANNEL=msedge pnpm exec playwright test e2e/smoke.spec.ts e2e/seo.spec.ts
 ```
 
+## Logs (T6)
+
+Les logs sont des lignes JSON (`src/server/logging/`). Chaque niveau passe par sa méthode `console.*`, car c'est elle que Vercel lit pour fixer le niveau (voir `docs/decisions.md`). Chaque route API renvoie son `requestId` dans l'en-tête `x-request-id`. Pour retrouver une ligne : Vercel, _Logs_, puis filtrer sur le `requestId`.
+
+Vérifier en production (provoque une ligne `error`) :
+
+```bash
+curl -si -X POST "$PRODUCTION_URL/api/v1/client-errors" -H "content-type: application/json" \
+  -d '{"message":"Test T6"}' | grep -i x-request-id   # attendu : 204 et un requestId
+```
+
+Vérifié le 2026-11-20 sur le déploiement `74ae9a5` : la ligne apparaît dans les logs Vercel au niveau `error` (source `function`, chemin `/api/v1/client-errors`), avec son `requestId` et sans secret.
+
 ## Indexation (T10)
 
 - **Production** : indexable. Titre, description, canonique et Open Graph sont dans le HTML statique ; `robots.txt` autorise tout et désigne `sitemap.xml`. Base des URL absolues : `SITE_URL`, sinon `VERCEL_PROJECT_PRODUCTION_URL` (`src/shared/seo/site.ts`). Une preview a donc pour canonique la production.
@@ -104,8 +117,9 @@ Vercel sert tout en HTTPS.
 
 ## Acceptation T9
 
-- [ ] `/ar` répond en HTTPS en production : workflow « Fumée en production » vert.
-- [ ] Sauvegarde : **écart assumé** avec le critère « sauvegarde quotidienne » du plan (Neon Free n'en a pas). À la place, une restauration à un instant donné est testée une fois dans les 6 h d'historique. La sauvegarde quotidienne devient obligatoire en Launch avant la phase 3.
+- [x] `/ar` répond en HTTPS en production : workflow « Fumée en production » vert (run 44405940399, 2026-11-18, déploiement `74ae9a5`).
+- [x] Sauvegarde : **écart assumé** avec le critère « sauvegarde quotidienne » du plan (Neon Free n'en a pas). À la place, une restauration à un instant donné est testée une fois dans les 6 h d'historique. La sauvegarde quotidienne devient obligatoire en Launch avant la phase 3.
+  - Testée le 2026-11-20 par l'API Neon : branche temporaire créée depuis `main` à 11:00 UTC (une heure en arrière), avec le même contenu que `main` (1 migration, table `_prisma_migrations`), puis supprimée. `main` n'a pas été touchée.
 - [ ] Un retour arrière a été exécuté une fois : déployer un changement anodin, faire le retour arrière, vérifier `/ar`, puis `vercel promote`. Le noter ci-dessous.
 
 | Date | Déploiement de départ | Retour vers | Vérification | Promote |
