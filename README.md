@@ -21,9 +21,11 @@ pnpm format:check
 pnpm build
 pnpm test                       # unitaires
 pnpm test:int                   # intégration (vide puis migre hikayat_test)
-PW_CHANNEL=msedge pnpm test:e2e
+PW_CHANNEL=msedge pnpm test:e2e # ou, sans Edge : pnpm exec playwright install chromium puis pnpm test:e2e
 pnpm db:migrate                 # nouvelle migration (dev) + generate
 ```
+
+Installation vérifiée depuis un clone vierge le 2026-11-20 (install, typecheck, test, build, db:deploy, test:int, test:e2e : tout passe).
 
 Santé : `GET /api/v1/health` renvoie 200 si la base répond, sinon 503.
 
