@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { directions, routing } from "@/i18n/routing";
 import { resolveSiteUrl } from "@/shared/seo/site";
+import { texte, titre } from "@/styles/fonts";
 import "@/styles/globals.css";
 
 export function generateStaticParams() {
@@ -27,7 +28,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   if (!hasLocale(routing.locales, locale)) notFound();
 
   return (
-    <html lang={locale} dir={directions[locale]}>
+    <html lang={locale} dir={directions[locale]} className={`${texte.variable} ${titre.variable}`}>
       <body>{children}</body>
     </html>
   );

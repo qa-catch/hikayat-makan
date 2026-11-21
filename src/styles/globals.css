@@ -61,6 +61,47 @@
   --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
   --ease-scene: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /*
+   * Typographie arabe (T3). Échelle mobile d'abord (360 px), interlignage généreux : l'arabe
+   * porte des signes au-dessus et au-dessous de la ligne. Pas de tailles ni de graisses hors liste.
+   * Familles : seulement les nôtres (définies dans le bloc `inline` ci-dessous).
+   */
+  --font-*: initial;
+  --text-*: initial;
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.7;
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.8;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.9;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.8;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 1.5;
+  --text-2xl: clamp(1.875rem, 1.6rem + 1.2vw, 2.25rem);
+  --text-2xl--line-height: 1.4;
+  --text-3xl: clamp(2.25rem, 1.8rem + 2vw, 3rem);
+  --text-3xl--line-height: 1.35;
+
+  /* Graisses réellement chargées : 400 et 700 (texte), 700 (titres). */
+  --font-weight-*: initial;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+
+  /* Interlignes nommés par usage, pour les cas hors échelle (texte long, titre multiligne). */
+  --leading-*: initial;
+  --leading-texte: 1.9;
+  --leading-titre: 1.4;
+
+  /* Aucun espacement de lettres : il casse la liaison des lettres arabes. */
+  --tracking-*: initial;
+}
+
+/* `inline` : les familles lisent les variables posées par next/font sur <html> (src/styles/fonts.ts). */
+@theme inline {
+  --font-texte: var(--police-texte), system-ui, sans-serif;
+  --font-titre: var(--police-titre), var(--police-texte), system-ui, sans-serif;
 }
 
 :root {
@@ -70,4 +111,20 @@
 body {
   background-color: var(--color-chaux);
   color: var(--color-encre);
+  font-family: var(--font-texte);
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+}
+
+/* Titres : police de titres, graisse 700, retour à la ligne équilibré. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-titre);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-titre);
+    text-wrap: balance;
+  }
 }

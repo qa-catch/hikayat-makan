@@ -68,7 +68,7 @@ Chaque tâche remplit sa ligne en fin de PR. Rien n'est supposé avant la tâche
 | Rubrique                                   | Tâche | État              |
 | ------------------------------------------ | ----- | ----------------- |
 | Jetons retenus (couleurs, durées, courbes) | T2    | fait (ci-dessous) |
-| Polices retenues (titres, texte)           | T3    | à compléter       |
+| Polices retenues (titres, texte)           | T3    | fait (ci-dessous) |
 | Composants disponibles                     | T4    | à compléter       |
 | Motif de zellige                           | T5    | à compléter       |
 | Gabarits de pages                          | T6    | à compléter       |
@@ -84,3 +84,12 @@ Source unique : `@theme` de `src/styles/globals.css`. Les couleurs, rayons et co
 - **Durées** : `duration-enter` (240 ms), `duration-exit` (160 ms), `duration-scene` (600 ms).
 - **Courbes** : `ease-enter`, `ease-exit`, `ease-scene`.
 - **Mode sombre** : aucun (non décidé).
+
+### Polices retenues (T3)
+
+Détail, licence, source et mesures : `docs/polices.md`. Auto-hébergées, 94 Kio au total, `font-display: swap`.
+
+- **Titres** : Noto Kufi Arabic 700, jeton `font-titre` ; `h1`–`h4` l’appliquent d’office, avec `text-wrap: balance`.
+- **Texte** : Noto Sans Arabic 400 et 700, jeton `font-texte` (par défaut sur `body`).
+- **Échelle** (mobile d’abord, interlignes inclus) : `text-xs` 13 px, `text-sm` 15 px, `text-base` 17 px (interligne 1,9), `text-lg` 20 px, `text-xl` 24 px, `text-2xl` 30 → 36 px, `text-3xl` 36 → 48 px (fluides).
+- **Interdits** : autre graisse que 400/700, espacement de lettres ; contenus mixtes arabe/latin en `dir="auto"`.
