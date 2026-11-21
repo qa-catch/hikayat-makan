@@ -10,6 +10,7 @@
 - Un seul client Prisma (`src/server/db/client.ts`). Prisma 7 ne charge pas `.env` : c'est `prisma.config.ts` qui le fait.
 - Versions **exactes** (`.npmrc` `save-exact`), figées par `pnpm-lock.yaml`. Toute version ou API se vérifie dans la documentation officielle, pas de mémoire. Next.js 16 : lire `node_modules/next/dist/docs/` avant de coder ; `src/proxy.ts` remplace le middleware.
 - Une migration reste compatible avec le code précédent (retour arrière possible).
+- **`data-testid` unique et stable** sur chaque élément qu'un test ou un automate doit viser : champs, boutons, liens de navigation, composants (carte, scène, bandeau, liste de sources), zones de contenu. Format `kebab-case`, du général au particulier, par exemple `place-card-<id>`, `story-scene-<n>`, `nav-bottom-home`. Jamais de valeur dépendant de la langue, du style ou de l'ordre d'affichage ; l'identifiant vient des données quand il existe. Les libellés restent dans `messages/ar.json`, pas dans le `data-testid`. Un test E2E vérifie l'unicité sur chaque page. Raison : tests E2E stables, et futur automate de rédaction (`docs/decisions.md`, 2026-11-21) qui navigue et remplit les pages sans dépendre des classes ni du texte arabe.
 
 ## Secrets
 
