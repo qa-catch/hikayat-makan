@@ -69,7 +69,7 @@ Chaque tâche remplit sa ligne en fin de PR. Rien n'est supposé avant la tâche
 | ------------------------------------------ | ----- | ----------------- |
 | Jetons retenus (couleurs, durées, courbes) | T2    | fait (ci-dessous) |
 | Polices retenues (titres, texte)           | T3    | fait (ci-dessous) |
-| Composants disponibles                     | T4    | à compléter       |
+| Composants disponibles                     | T4    | fait (ci-dessous) |
 | Motif de zellige                           | T5    | à compléter       |
 | Gabarits de pages                          | T6    | à compléter       |
 | Primitives d'animation et leur repli       | T7    | à compléter       |
@@ -93,3 +93,14 @@ Détail, licence, source et mesures : `docs/polices.md`. Auto-hébergées, 94 Ki
 - **Texte** : Noto Sans Arabic 400 et 700, jeton `font-texte` (par défaut sur `body`).
 - **Échelle** (mobile d’abord, interlignes inclus) : `text-xs` 13 px, `text-sm` 15 px, `text-base` 17 px (interligne 1,9), `text-lg` 20 px, `text-xl` 24 px, `text-2xl` 30 → 36 px, `text-3xl` 36 → 48 px (fluides).
 - **Interdits** : autre graisse que 400/700, espacement de lettres ; contenus mixtes arabe/latin en `dir="auto"`.
+
+### Composants disponibles (T4)
+
+Catalogue visuel : `/ar/catalogue` (`noindex`, absent en production, données factices de `src/features/catalogue/demo-data.ts`). Tous les composants sont des composants serveur, sauf `NavLink` (lit le chemin courant) ; les libellés viennent de `messages/ar.json`, les données de props. Chaque instance prend un `data-testid` stable (`docs/conventions.md`).
+
+- **`components/ui/`** : `Button` / `ButtonLink` (`primary`, `secondary`, `ghost`), `TextLink` (`inline` seulement au milieu d'une phrase), `Heading` (niveau = structure, `size` = apparence), `LongText` (colonne `max-w-prose`, un `<p dir="auto">` par paragraphe), `Badge` (5 tons), `Icon` et `DirectionalIcon` (`forward` / `back`, inversée en RTL), `Skeleton` (`text`, `visual`, `card`), `EmptyState`.
+- **`components/layout/`** : `Header` (lien d'évitement, marque, navigation à partir de `md`), `BottomNav` (mobile, zone sûre du bas, espaceur inclus, à placer en dernier du `<body>`), `Footer`, `Container` (zones sûres latérales), `NavLink` et `NavItem`.
+- **`components/cards/`** : `PlaceCard`, `StoryCard` (un seul lien par carte, étiré sur toute la carte ; focus dessiné sur la carte).
+- **`components/content/`** : `NatureBanner` (4 natures), `UnverifiedNotice`, `SourceList`.
+- **Règles** : cibles tactiles ≥ 44 px (`min-h-touch`) hors liens en phrase ; focus visible global (`:focus-visible`, 2 px bleu ; `outline-safran` sur fond bleu profond) ; `dir="auto"` sur tout contenu venant des données ; la couleur ne porte jamais seule la nature d'un contenu ; aucune transition de couleur (`transform` et `opacity` seulement).
+- **Jeton ajouté** : `--spacing-nav` (3,5 rem, barre du bas). `viewport-fit=cover` dans le layout pour les zones sûres.

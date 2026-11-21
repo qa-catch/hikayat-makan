@@ -50,6 +50,7 @@ const pairs: [text: string, background: string, min: number][] = [
   ["white", "erreur", TEXT],
   ["chaux", "bleu", TEXT],
   ["chaux", "bleu-profond", TEXT],
+  ["bleu-clair", "bleu-profond", TEXT],
   ["encre", "safran", TEXT],
   ["bleu-profond", "safran", TEXT],
   ["encre", "safran-clair", TEXT],

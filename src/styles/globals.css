@@ -50,6 +50,8 @@
   --spacing-gutter: 1rem;
   --spacing-section: 3rem;
   --spacing-touch: 2.75rem;
+  /* Hauteur de la barre de navigation du bas (mobile), hors zone sûre. */
+  --spacing-nav: 3.5rem;
 
   /* Durées nommées par usage (utilitaires duration-enter, duration-exit, duration-scene). */
   --transition-duration-enter: 240ms;
@@ -126,5 +128,13 @@ body {
     font-weight: var(--font-weight-bold);
     line-height: var(--leading-titre);
     text-wrap: balance;
+  }
+}
+
+/* Focus clavier visible partout (2 px, décalé) ; les composants à focus propre le déplacent sur leur cadre. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-bleu);
+    outline-offset: 2px;
   }
 }
