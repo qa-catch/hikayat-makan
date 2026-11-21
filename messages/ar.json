@@ -2,5 +2,111 @@
   "Metadata": {
     "title": "حكاية مكان",
     "description": "منصة مغربية لاكتشاف التراث التاريخي والثقافي والطبيعي والحرفي للمغرب."
+  },
+  "Ui": {
+    "loading": "جارٍ التحميل…",
+    "demo": "تجريبي"
+  },
+  "Layout": {
+    "brand": "حكاية مكان",
+    "skipToContent": "انتقل إلى المحتوى",
+    "mainNav": "التنقل الرئيسي",
+    "footerNav": "روابط التذييل"
+  },
+  "Cards": {
+    "readingTime": "مدة القراءة: {minutes} د"
+  },
+  "Content": {
+    "natureLabel": "طبيعة المحتوى",
+    "nature": {
+      "FACT": {
+        "label": "وقائع موثّقة",
+        "description": "وقائع تاريخية مسنودة بمصادر."
+      },
+      "EDITORIAL": {
+        "label": "سرد تحريري",
+        "description": "سرد تحريري مبني على وقائع."
+      },
+      "LEGEND": {
+        "label": "رواية شعبية",
+        "description": "رواية شعبية أو موروث شفهي، تُعرض على هذا الأساس."
+      },
+      "RECONSTRUCTION": {
+        "label": "إعادة تمثيل",
+        "description": "إعادة تمثيل أو محتوى درامي، يُشار إليه صراحةً."
+      }
+    },
+    "unverified": "محتوى قيد التحقق",
+    "sources": "المصادر",
+    "noSources": "لا توجد مصادر مسجّلة لهذا المحتوى بعد.",
+    "externalLink": "(يُفتح في نافذة جديدة)"
+  },
+  "Catalogue": {
+    "title": "كتالوج المكوّنات",
+    "intro": "صفحة للتطوير: تعرض كل مكوّن وحالاته. غير مفهرسة، ومخفية في الإنتاج. كل المحتوى تجريبي.",
+    "nav": {
+      "home": "الرئيسية",
+      "map": "الخريطة",
+      "search": "البحث",
+      "stories": "الحكايات"
+    },
+    "footerLink": "كتالوج المكوّنات",
+    "sections": {
+      "buttons": "الأزرار",
+      "links": "الروابط",
+      "headings": "العناوين",
+      "longText": "النص الطويل",
+      "badges": "الشارات",
+      "icons": "الأيقونات",
+      "skeleton": "هيكل التحميل",
+      "emptyState": "الحالة الفارغة",
+      "layout": "التخطيط",
+      "cards": "البطاقات",
+      "content": "عناصر المحتوى"
+    },
+    "states": {
+      "primary": "أساسي",
+      "secondary": "ثانوي",
+      "ghost": "شفاف",
+      "disabled": "معطّل",
+      "withIcon": "مع أيقونة",
+      "linkButton": "رابط بشكل زر",
+      "standalone": "رابط مستقل",
+      "inline": "رابط داخل نص",
+      "headingLarge": "عنوان كبير",
+      "headingMedium": "عنوان متوسط",
+      "headingSmall": "عنوان صغير",
+      "headingMinor": "عنوان فرعي",
+      "headingMixed": "عنوان بالعربية واللاتينية",
+      "readingColumn": "عمود القراءة",
+      "latinParagraph": "فقرة لاتينية",
+      "tones": "الألوان",
+      "plainIcons": "أيقونات عادية",
+      "directionalIcons": "أيقونات اتجاهية",
+      "skeletonText": "نص",
+      "skeletonVisual": "صورة",
+      "skeletonCard": "بطاقة",
+      "emptyDefault": "مع وصف وزر",
+      "emptyMinimal": "عنوان فقط",
+      "layoutNote": "الصفحة كلها تستعمل المكوّنات: الترويسة في الأعلى، شريط التنقل السفلي على الهاتف، والتذييل في الأسفل.",
+      "container": "الحاوية",
+      "placeCard": "بطاقة مكان",
+      "storyCards": "بطاقات الحكايات",
+      "natureBanners": "شريط طبيعة المحتوى",
+      "unverified": "محتوى قيد التحقق",
+      "sourceList": "قائمة المصادر",
+      "sourceListEmpty": "قائمة مصادر فارغة"
+    },
+    "demo": {
+      "buttonLabel": "زر تجريبي",
+      "linkLabel": "رابط تجريبي",
+      "inlineBefore": "هذه جملة تجريبية فيها",
+      "inlineLink": "رابط داخل النص",
+      "inlineAfter": "ثم تكملة الجملة.",
+      "emptyTitle": "لا شيء لعرضه بعد",
+      "emptyDescription": "نص تجريبي يشرح الحالة الفارغة ويقترح خطوة تالية.",
+      "emptyAction": "إجراء تجريبي",
+      "containerNote": "حاوية بعرض أقصى وهوامش جانبية تحترم المناطق الآمنة."
+    }
   }
 }

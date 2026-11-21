@@ -1,0 +1,31 @@
+import type { ComponentProps } from "react";
+import { cn } from "@/lib/cn";
+
+const sizes = {
+  "3xl": "text-3xl",
+  "2xl": "text-2xl",
+  xl: "text-xl",
+  lg: "text-lg",
+} as const;
+
+export type HeadingSize = keyof typeof sizes;
+
+// Taille par défaut selon le niveau : le niveau décrit la structure, la taille l'apparence.
+const defaultSize: Record<1 | 2 | 3 | 4, HeadingSize> = { 1: "3xl", 2: "2xl", 3: "xl", 4: "lg" };
+
+type HeadingProps = Omit<ComponentProps<"h1">, "dir"> & {
+  level: 1 | 2 | 3 | 4;
+  size?: HeadingSize;
+};
+
+/** Titre : police et graisse viennent de globals.css ; `dir="auto"` pour les titres mêlant arabe et latin. */
+export function Heading({ level, size, className, ...props }: HeadingProps) {
+  const Tag = `h${level}` as const;
+  return (
+    <Tag
+      dir="auto"
+      className={cn("text-start text-bleu-profond", sizes[size ?? defaultSize[level]], className)}
+      {...props}
+    />
+  );
+}
