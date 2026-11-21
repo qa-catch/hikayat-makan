@@ -44,6 +44,7 @@ Données : aucune donnée réelle en phase 2. Textes et visuels factices,
 - Toute progression horizontale va de droite à gauche. Icônes directionnelles inversées en RTL ; contenus mixtes arabe/latin en `dir="auto"`.
 - Une animation sert le récit ou l'orientation, sinon elle est retirée. Le back-office n'est pas animé.
 - Aucune chaîne en dur : `messages/ar.json`. Dates, nombres, monnaie : `@/shared/i18n/format`.
+- `data-testid` unique et stable sur chaque élément interactif ou structurant (règle et format : `docs/conventions.md`), pour les tests et pour un futur automate de rédaction.
 
 ## Règles d'animation
 

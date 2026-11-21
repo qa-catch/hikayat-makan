@@ -65,7 +65,7 @@
   - `components/content/` : bandeau de nature du contenu (`FACT`, `EDITORIAL`, `LEGEND`, `RECONSTRUCTION`) et mention « محتوى قيد التحقق » ; liste de sources en fin d'article.
   - Libellés dans `messages/ar.json` ; classes logiques uniquement.
   - Route catalogue (hors production, `noindex`) qui montre chaque composant et ses états.
-- **Tests** : tests de rendu des composants (rôles, libellés, `dir`) ; navigation clavier et focus visible vérifiés en E2E sur le catalogue.
+- **Tests** : tests de rendu des composants (rôles, libellés, `dir`) ; navigation clavier et focus visible vérifiés en E2E sur le catalogue ; `data-testid` unique et stable sur chaque composant et état (`docs/conventions.md`), unicité vérifiée en E2E.
 - **Critères d'acceptation** : cibles tactiles d'au moins 44 × 44 px ; jugement `design-critique` sur capture réelle à 360, 768 et 1280 px, corrections faites.
 
 ### T5 — Motif de zellige
