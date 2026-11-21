@@ -70,7 +70,7 @@ Chaque tâche remplit sa ligne en fin de PR. Rien n'est supposé avant la tâche
 | Jetons retenus (couleurs, durées, courbes) | T2    | fait (ci-dessous) |
 | Polices retenues (titres, texte)           | T3    | fait (ci-dessous) |
 | Composants disponibles                     | T4    | fait (ci-dessous) |
-| Motif de zellige                           | T5    | à compléter       |
+| Motif de zellige                           | T5    | fait (ci-dessous) |
 | Gabarits de pages                          | T6    | à compléter       |
 | Primitives d'animation et leur repli       | T7    | à compléter       |
 
@@ -104,3 +104,14 @@ Catalogue visuel : `/ar/catalogue` (`noindex`, absent en production, données fa
 - **`components/content/`** : `NatureBanner` (4 natures), `UnverifiedNotice`, `SourceList`.
 - **Règles** : cibles tactiles ≥ 44 px (`min-h-touch`) hors liens en phrase ; focus visible global (`:focus-visible`, 2 px bleu ; `outline-safran` sur fond bleu profond) ; `dir="auto"` sur tout contenu venant des données ; la couleur ne porte jamais seule la nature d'un contenu ; aucune transition de couleur (`transform` et `opacity` seulement).
 - **Jeton ajouté** : `--spacing-nav` (3,5 rem, barre du bas). `viewport-fit=cover` dans le layout pour les zones sûres.
+
+### Motif de zellige (T5)
+
+Construit pour le projet, sans source extérieure : deux carrés de même centre, l'un tourné de 45°, forment une étoile à huit branches ; une seconde étoile, tournée de 22,5°, a ses pointes sur l'octogone central de la première ; un cœur plein à huit pointes ferme le médaillon. Coordonnées calculées dans `src/components/zellige/geometry.ts` (repère `-50 -50 100 100`, arrondi au dixième), vérifiées par `zellige.test.tsx`.
+
+- **`components/zellige/`** (serveur, décoratifs, `aria-hidden`) : `ZelligeDivider` (filet, trois étoiles, filet), `ZelligeFrame` (double filet, étoile sur chaque coin du filet intérieur, sans débordement), `ZelligeMedallion` (56 px au moins), `ZelligeStar` (petites tailles). `EmptyState` montre le médaillon par défaut (`visual={null}` pour aucun).
+- **`components/motion/ZelligeLoader`** : le médaillon se dessine trait par trait (16 traits, 50 ms d'écart), reste complet, puis s'efface ; boucle de 2,4 s, courbe `ease-scene`. CSS seul, sans JavaScript ; `transform` (échelle de chaque trait) et `opacity` uniquement. `role="status"` et libellé `Ui.loading` pour les lecteurs d'écran. Animation uniquement sous `motion-safe:` : avec `prefers-reduced-motion`, médaillon fixe et complet (test E2E `e2e/zellige.spec.ts`).
+- **Couleurs** : traits en `currentColor` (`text-bleu` par défaut pour le médaillon, `text-ocre` pour les étoiles), filets `ocre-clair`, cœur `safran` (décoratif, jamais du texte).
+- **Accent seulement** : séparateur, cadre, état vide, chargement. Jamais en fond ni en motif répété sur une surface.
+- **`className`** : `cn` ne fusionne pas les classes ; un `className` passé au médaillon, à l'étoile ou au chargement remplace taille et couleur par défaut (donner les deux).
+- **Poids** (balisage rendu, brut / gzip) : médaillon 730 o / 339 o ; étoile 292 o / 193 o ; séparateur 1 012 o / 261 o ; cadre (hors contenu) 1 402 o / 291 o ; chargement 4 125 o / 648 o. Plafonds vérifiés par `zellige.test.tsx`.

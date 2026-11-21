@@ -65,6 +65,50 @@
   --ease-scene: cubic-bezier(0.65, 0, 0.35, 1);
 
   /*
+   * Motif de zellige (T5, ZelligeLoader) : chaque trait se dessine (échelle), le médaillon reste
+   * complet, puis s'efface (opacité) ; boucle de 2,4 s. Utilisées seulement sous `motion-safe:`.
+   */
+  --animate-zellige-trait: zellige-trait 2400ms var(--ease-scene) infinite both;
+  --animate-zellige-coeur: zellige-coeur 2400ms var(--ease-scene) infinite both;
+
+  @keyframes zellige-trait {
+    0% {
+      transform: scaleX(0);
+      opacity: 1;
+    }
+    20% {
+      transform: scaleX(1);
+    }
+    80% {
+      opacity: 1;
+    }
+    92%,
+    100% {
+      transform: scaleX(1);
+      opacity: 0;
+    }
+  }
+
+  @keyframes zellige-coeur {
+    0% {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+    20% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    92%,
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+
+  /*
    * Typographie arabe (T3). Échelle mobile d'abord (360 px), interlignage généreux : l'arabe
    * porte des signes au-dessus et au-dessous de la ligne. Pas de tailles ni de graisses hors liste.
    * Familles : seulement les nôtres (définies dans le bloc `inline` ci-dessous).

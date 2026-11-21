@@ -17,6 +17,8 @@ import { DIRECTIONAL_SHAPES, DirectionalIcon, ICON_NAMES, Icon } from "@/compone
 import { LongText } from "@/components/ui/long-text";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TextLink } from "@/components/ui/text-link";
+import { ZelligeDivider, ZelligeFrame, ZelligeMedallion } from "@/components/zellige/zellige";
+import { ZelligeLoader } from "@/components/motion/zellige-loader";
 import { NATURES } from "@/shared/content/nature";
 import {
   demoLatinParagraphs,
@@ -218,6 +220,31 @@ export function Catalogue() {
               headingLevel={3}
               data-testid="catalogue-empty-state-minimal"
             />
+          </Specimen>
+        </Section>
+
+        <Section id="zellige" title={t("sections.zellige")}>
+          <Specimen label={s("zelligeDivider")}>
+            <ZelligeDivider data-testid="catalogue-zellige-divider" />
+          </Specimen>
+          <Specimen label={s("zelligeFrame")}>
+            <ZelligeFrame data-testid="catalogue-zellige-frame" className="max-w-sm">
+              <div className="aspect-[4/3]">
+                <DemoVisual />
+              </div>
+            </ZelligeFrame>
+          </Specimen>
+          <Specimen label={s("zelligeMedallion")}>
+            <div className="flex flex-wrap items-end gap-6">
+              <ZelligeMedallion data-testid="catalogue-zellige-medallion" />
+              <ZelligeMedallion
+                className="size-32 text-emeraude"
+                data-testid="catalogue-zellige-medallion-large"
+              />
+            </div>
+          </Specimen>
+          <Specimen label={s("zelligeLoader")}>
+            <ZelligeLoader data-testid="catalogue-zellige-loader" />
           </Specimen>
         </Section>
 

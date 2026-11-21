@@ -129,6 +129,6 @@ describe("EmptyState", () => {
   it("se réduit au titre", () => {
     const html = render(<EmptyState title="Titre" headingLevel={3} />);
     expect(html).toContain("<h3");
-    expect(html).not.toContain("<p");
+    expect(html).not.toMatch(/<p[\s>]/);
   });
 });
