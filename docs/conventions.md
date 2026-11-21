@@ -5,6 +5,7 @@
 - Commentaires et messages de code en **français**.
 - **RTL d'abord** : classes Tailwind logiques (`ms-`, `pe-`, `start-`, `text-start`). `ml-`, `pr-`, `left-`… font échouer ESLint.
 - **Aucune chaîne en dur** dans les composants : tout passe par `messages/ar.json`.
+- **Typographie** : familles `font-texte` et `font-titre`, graisses `font-normal` et `font-bold` seulement (les seules chargées), tailles `text-xs` à `text-3xl`. Jamais d’espacement de lettres (`tracking-*`, `letter-spacing`) : il casse la liaison des lettres arabes. Tout contenu mêlant arabe et latin (noms, sigles, nombres) porte `dir="auto"`.
 - Dates, nombres, monnaie : `@/shared/i18n/format` (ar-MA, chiffres occidentaux). `useFormatter` et `getFormatter` sont interdits.
 - `src/shared/` : TypeScript pur, sans Next, React ni Prisma.
 - Un seul client Prisma (`src/server/db/client.ts`). Prisma 7 ne charge pas `.env` : c'est `prisma.config.ts` qui le fait.
