@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 @AGENTS.md
 
-Plan de la phase en cours : `PLAN_PHASE_1.md` (tâches T0–T11, critères d'acceptation, restrictions). Plan produit : `histoir_place_outOfScop.md` (long : ne lire que le § visé). Commentaires et messages de code en français.
+Plan de la phase en cours : `PLAN_PHASE_2.md` (tâches T0–T11, critères d'acceptation, restrictions) ; phase 1 terminée : `PLAN_PHASE_1.md`. Plan produit : `histoir_place_outOfScop.md` (long : ne lire que le § visé). Commentaires et messages de code en français.
 
 ## Vérifier un changement
 
@@ -25,8 +25,8 @@ Ordre : `pnpm lint` (0 warning toléré) → `pnpm typecheck` (lance `next typeg
 - Versions exactes (`.npmrc` `save-exact`), figées par `pnpm-lock.yaml`. Vérifier toute version ou API dans la doc officielle, jamais de mémoire.
 - Next.js 16 : `src/proxy.ts` remplace le middleware ; lire `node_modules/next/dist/docs/` avant de coder.
 
-## Gouvernance (PLAN_PHASE_1.md)
+## Gouvernance (plans de phase)
 
-- Aucune anticipation des phases 2 et 3 ; aucun contenu historique sur Fès, aucun fait ni source inventé.
+- Aucune anticipation des phases suivantes ; aucun contenu historique sur Fès, aucun fait ni source inventé.
 - Aucun plugin ; tout skill est audité et inscrit dans `docs/skills-audit.md` avant usage.
 - Une tâche = une PR courte. Commits : Conventional Commits en français (`feat:`, `fix:`, `docs:`…), branches `t<N>-<sujet>`. Dépôt : github.com/qa-catch/hikayat-makan (public) ; `main` est protégé : tout passe par une PR dont les contrôles Contrôles et gitleaks sont verts.
