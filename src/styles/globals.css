@@ -1,1 +1,73 @@
 @import "tailwindcss";
+
+/*
+ * Jetons de design (T2) : seule source des couleurs, rayons, espacements,
+ * durées et courbes. Aucune valeur en dur dans les composants.
+ * Contrastes vérifiés par src/styles/tokens.test.ts (paires listées dans le test).
+ * Pas de mode sombre : non décidé (docs/prompts/brief-design.md).
+ */
+@theme {
+  /* Palette réduite : les couleurs par défaut de Tailwind sont retirées. */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Fonds : blanc chaux. */
+  --color-chaux: #fbf8f1;
+  --color-chaux-sombre: #f0eadc;
+
+  /* Texte. */
+  --color-encre: #1b2433;
+  --color-encre-douce: #4a5568;
+
+  /* Dominante : bleu profond. */
+  --color-bleu: #123a6b;
+  --color-bleu-profond: #0b2545;
+  --color-bleu-clair: #dce6f3;
+
+  /* Accents. */
+  --color-emeraude: #0b6b4f;
+  --color-emeraude-clair: #d5ebe2;
+  --color-ocre: #7a4f18;
+  --color-ocre-clair: #ebd9bc;
+  --color-safran: #e8a317;
+  --color-safran-clair: #fbeccb;
+
+  /* États. */
+  --color-erreur: #b3261e;
+  --color-erreur-clair: #f9dedc;
+
+  /* Rayons : échelle courte. */
+  --radius-*: initial;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-full: 9999px;
+
+  /* Espacements : base 4 px (--spacing de Tailwind) + trois jetons nommés. */
+  --spacing-gutter: 1rem;
+  --spacing-section: 3rem;
+  --spacing-touch: 2.75rem;
+
+  /* Durées nommées par usage (utilitaires duration-enter, duration-exit, duration-scene). */
+  --transition-duration-enter: 240ms;
+  --transition-duration-exit: 160ms;
+  --transition-duration-scene: 600ms;
+
+  /* Courbes nommées par usage (utilitaires ease-enter, ease-exit, ease-scene). */
+  --ease-*: initial;
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-scene: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-chaux);
+  color: var(--color-encre);
+}

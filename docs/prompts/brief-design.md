@@ -65,11 +65,22 @@ Données : aucune donnée réelle en phase 2. Textes et visuels factices,
 
 Chaque tâche remplit sa ligne en fin de PR. Rien n'est supposé avant la tâche.
 
-| Rubrique                                   | Tâche | État        |
-| ------------------------------------------ | ----- | ----------- |
-| Jetons retenus (couleurs, durées, courbes) | T2    | à compléter |
-| Polices retenues (titres, texte)           | T3    | à compléter |
-| Composants disponibles                     | T4    | à compléter |
-| Motif de zellige                           | T5    | à compléter |
-| Gabarits de pages                          | T6    | à compléter |
-| Primitives d'animation et leur repli       | T7    | à compléter |
+| Rubrique                                   | Tâche | État              |
+| ------------------------------------------ | ----- | ----------------- |
+| Jetons retenus (couleurs, durées, courbes) | T2    | fait (ci-dessous) |
+| Polices retenues (titres, texte)           | T3    | à compléter       |
+| Composants disponibles                     | T4    | à compléter       |
+| Motif de zellige                           | T5    | à compléter       |
+| Gabarits de pages                          | T6    | à compléter       |
+| Primitives d'animation et leur repli       | T7    | à compléter       |
+
+### Jetons retenus (T2)
+
+Source unique : `@theme` de `src/styles/globals.css`. Les couleurs, rayons et courbes par défaut de Tailwind sont retirés : seuls ces jetons existent. Contrastes AA vérifiés par `src/styles/tokens.test.ts` ; toute nouvelle paire texte/fond s'ajoute à la liste du test.
+
+- **Couleurs** : dominante `bleu` (`bleu-profond`, `bleu-clair`) ; accents `emeraude`, `ocre`, `safran` (chacun avec sa variante `-clair`) ; fonds `chaux`, `chaux-sombre` ; texte `encre`, `encre-douce` ; état `erreur`. Safran : fond ou élément d'interface seulement, jamais en texte sur fond clair.
+- **Rayons** : `sm`, `md`, `lg`, `full`.
+- **Espacements** : base 4 px de Tailwind (`p-4`…) et trois jetons nommés : `gutter` (1 rem), `section` (3 rem), `touch` (2,75 rem = zone tactile 44 px, `min-h-touch`).
+- **Durées** : `duration-enter` (240 ms), `duration-exit` (160 ms), `duration-scene` (600 ms).
+- **Courbes** : `ease-enter`, `ease-exit`, `ease-scene`.
+- **Mode sombre** : aucun (non décidé).
