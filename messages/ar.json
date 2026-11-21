@@ -60,6 +60,7 @@
       "icons": "الأيقونات",
       "skeleton": "هيكل التحميل",
       "emptyState": "الحالة الفارغة",
+      "zellige": "زخرفة الزليج",
       "layout": "التخطيط",
       "cards": "البطاقات",
       "content": "عناصر المحتوى"
@@ -95,7 +96,11 @@
       "natureBanners": "شريط طبيعة المحتوى",
       "unverified": "محتوى قيد التحقق",
       "sourceList": "قائمة المصادر",
-      "sourceListEmpty": "قائمة مصادر فارغة"
+      "sourceListEmpty": "قائمة مصادر فارغة",
+      "zelligeDivider": "فاصل بين قسمين",
+      "zelligeFrame": "إطار حول صورة",
+      "zelligeMedallion": "النجمة الثمانية بحجمين",
+      "zelligeLoader": "مؤشر التحميل: يُرسم خطًّا خطًّا، ويبقى ثابتًا كاملًا عند تقليل الحركة"
     },
     "demo": {
       "buttonLabel": "زر تجريبي",

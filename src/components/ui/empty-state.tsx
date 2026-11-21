@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ZelligeMedallion } from "@/components/zellige/zellige";
 import { cn } from "@/lib/cn";
 import { Heading } from "./heading";
 
@@ -7,7 +8,7 @@ type EmptyStateProps = {
   description?: string;
   /** Bouton ou lien proposant la suite. */
   action?: ReactNode;
-  /** Illustration décorative (le motif de zellige arrive en T5). */
+  /** Illustration décorative ; par défaut le médaillon de zellige, `null` pour aucune. */
   visual?: ReactNode;
   headingLevel?: 2 | 3 | 4;
   className?: string;
@@ -19,7 +20,7 @@ export function EmptyState({
   title,
   description,
   action,
-  visual,
+  visual = <ZelligeMedallion />,
   headingLevel = 2,
   className,
   ...props
