@@ -1,0 +1,42 @@
+name: Nettoyage Neon
+
+# L'intégration Vercel-Neon crée une branche « preview/<branche git> » par preview et ne la
+# supprime pas ; le plan Free est limité à 10 branches. À la fermeture d'une PR (fusionnée ou
+# non), on supprime la sienne. Appel direct de l'API Neon : pas d'action tierce, et la branche
+# git (contrôlée par l'auteur de la PR) passe par l'environnement, jamais interpolée dans le script.
+on:
+  pull_request:
+    types: [closed]
+
+permissions: {}
+
+jobs:
+  supprimer:
+    name: Supprimer la branche Neon de la preview
+    # Une PR venue d'un fork n'a ni preview Neon ni accès aux secrets.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+      NEON_PROJECT_ID: ${{ vars.NEON_PROJECT_ID }}
+      BRANCHE_GIT: ${{ github.event.pull_request.head.ref }}
+    steps:
+      - name: Supprimer preview/<branche>
+        run: |
+          set -euo pipefail
+          if [ -z "$NEON_API_KEY" ] || [ -z "$NEON_PROJECT_ID" ]; then
+            echo "::warning::Secret NEON_API_KEY ou variable NEON_PROJECT_ID absent : rien supprimé (docs/deploiement.md)."
+            exit 0
+          fi
+          api="https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/branches"
+          nom="preview/$BRANCHE_GIT"
+          # Recherche par nom, puis correspondance exacte ; la branche par défaut n'est jamais visée.
+          id=$(curl -fsS -G -H "Authorization: Bearer $NEON_API_KEY" --data-urlencode "search=$nom" "$api" \
+            | jq -r --arg nom "$nom" '[.branches[] | select(.name == $nom and (.default | not))][0].id // empty')
+          if [ -z "$id" ]; then
+            echo "Aucune branche « $nom » : rien à faire."
+            exit 0
+          fi
+          curl -fsS -X DELETE -H "Authorization: Bearer $NEON_API_KEY" "$api/$id" > /dev/null
+          echo "Branche « $nom » supprimée."
