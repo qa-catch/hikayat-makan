@@ -33,6 +33,7 @@ Tarifs relevés sur neon.com/pricing le 2026-11-18 : Vercel Hobby 0 $. Neon Free
    - plan Free. S'il n'est pas proposé par cette voie, utiliser l'intégration gérée par Neon ;
    - environnements Production et Preview ;
    - sous « Create database branch for deployment », cocher **Preview**. Chaque preview reçoit alors sa branche `preview/<branche>`, et la production garde la branche par défaut.
+   - l'intégration ne supprime jamais ces branches et le plan Free en accepte 10 : le workflow `.github/workflows/neon-nettoyage.yml` supprime `preview/<branche>` à la fermeture de la PR. Il lit le secret de dépôt `NEON_API_KEY` (clé limitée au projet) et la variable de dépôt `NEON_PROJECT_ID` ; sans l'un des deux, il prévient et ne supprime rien. Branches déjà accumulées : à supprimer à la main (console Neon).
 3. **Variables** :
    - Neon injecte `DATABASE_URL` (avec pooler, utilisée par l'application) et `DATABASE_URL_UNPOOLED` (connexion directe, utilisée par les migrations via `prisma.config.ts`) ;
    - ajouter `VERCEL_PREVIEW_FEEDBACK_ENABLED=0` pour l'environnement Preview. Cela coupe la toolbar Vercel, que la CSP bloquerait ;
