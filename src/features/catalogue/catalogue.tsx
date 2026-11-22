@@ -19,6 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { TextLink } from "@/components/ui/text-link";
 import { ZelligeDivider, ZelligeFrame, ZelligeMedallion } from "@/components/zellige/zellige";
 import { ZelligeLoader } from "@/components/motion/zellige-loader";
+import { gabaritPaths } from "@/features/gabarits/paths";
 import { NATURES } from "@/shared/content/nature";
 import {
   demoLatinParagraphs,
@@ -314,6 +315,24 @@ export function Catalogue() {
           <Specimen label={s("sourceListEmpty")}>
             <SourceList sources={[]} data-testid="source-list-empty" />
           </Specimen>
+        </Section>
+
+        <Section id="templates" title={t("sections.templates")}>
+          <p dir="auto" className="max-w-prose text-base text-encre-douce">
+            {t("templates.intro")}
+          </p>
+          <div className="flex flex-wrap gap-4">
+            {(["accueil", "lieu", "histoire", "liste"] as const).map((name) => (
+              <ButtonLink
+                key={name}
+                href={gabaritPaths[name]}
+                variant="secondary"
+                data-testid={`catalogue-template-${name}`}
+              >
+                {t(`templates.${name}`)}
+              </ButtonLink>
+            ))}
+          </div>
         </Section>
       </Container>
       <Footer links={[{ id: "catalogue", href: "/catalogue", label: t("footerLink") }]} />

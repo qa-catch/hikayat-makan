@@ -71,7 +71,7 @@ Chaque tâche remplit sa ligne en fin de PR. Rien n'est supposé avant la tâche
 | Polices retenues (titres, texte)           | T3    | fait (ci-dessous) |
 | Composants disponibles                     | T4    | fait (ci-dessous) |
 | Motif de zellige                           | T5    | fait (ci-dessous) |
-| Gabarits de pages                          | T6    | à compléter       |
+| Gabarits de pages                          | T6    | fait (ci-dessous) |
 | Primitives d'animation et leur repli       | T7    | à compléter       |
 
 ### Jetons retenus (T2)
@@ -115,3 +115,16 @@ Construit pour le projet, sans source extérieure : deux carrés de même centre
 - **Accent seulement** : séparateur, cadre, état vide, chargement. Jamais en fond ni en motif répété sur une surface.
 - **`className`** : `cn` ne fusionne pas les classes ; un `className` passé au médaillon, à l'étoile ou au chargement remplace taille et couleur par défaut (donner les deux).
 - **Poids** (balisage rendu, brut / gzip) : médaillon 730 o / 339 o ; étoile 292 o / 193 o ; séparateur 1 012 o / 261 o ; cadre (hors contenu) 1 402 o / 291 o ; chargement 4 125 o / 648 o. Plafonds vérifiés par `zellige.test.tsx`.
+
+### Gabarits de pages (T6)
+
+Quatre gabarits sur la route catalogue, `/ar/catalogue/gabarits/<accueil|lieu|histoire|liste>` (`noindex`, 404 en production : vérifié par un build avec `VERCEL_ENV=production`). Données factices de `src/features/gabarits/demo-data.ts`, libellés dans `Gabarits` de `messages/ar.json`. Liens depuis la section « القوالب » du catalogue. Chaque gabarit est un composant serveur de `src/features/gabarits/` qui monte `GabaritPage` (en-tête, `<main>`, pied de page, navigation du bas) ; les pages de la phase 4 reprendront ce cadre avec de vraies données.
+
+- **`accueil`** : scène d'ouverture plein écran (`min-h` en `dvh`, moins l'en-tête et, sur mobile, la barre du bas), puis trois portes (arche `rounded-t-full`, un seul lien étiré par porte) pour les trois piliers. Mobile : visuel en haut, texte dessous ; desktop : texte à droite, visuel à gauche. Le médaillon de zellige est l'unique accent du visuel.
+- **`lieu`** : en-tête visuel (la future porte de T8), titre, mention « قيد التحقق », نبذة, histoires liées (`StoryCard`), sources.
+- **`histoire`** : lecture immersive : bandeau de nature en tête, une scène par écran (visuel et texte court), sources en fin d'article, puis « تابع الرحلة » (la suite). Le visuel fixé qui se transforme viendra des primitives (T7, T8).
+- **`liste`** : titre, nombre de résultats, grille de `PlaceCard` (1, 2 puis 3 colonnes).
+- **`SplitLayout`** : visuel d'un côté, texte de l'autre. Mobile : visuel en haut (40 dvh, 26 rem au plus), texte dessous. Dès `md` : deux colonnes, visuel fixé (`sticky`) ; le texte est le premier dans le DOM, donc à droite en RTL. Sans visuel, une colonne vide garde la largeur du texte (en-tête et fin d'histoire alignés sur les scènes).
+- **Ajouts aux composants** : `Heading` accepte `tone="inverse"` (blanc sur fond bleu profond, bleu, émeraude ou ocre) ; `DemoVisual` a un ton `emeraude`.
+- **Jugement `design-critique`** (captures réelles à 360, 768 et 1280 px) : corrigés : visuel d'ouverture trop court sur mobile (la scène dépassait l'écran de 33 px), dégradé ocre des portes boueux (l'ocre tient 45 % avant de virer au bleu profond), en-tête et fin d'histoire désalignés des scènes sur desktop, texte court des scènes calé en haut face à un visuel de 640 px (centré). Restent notés : sur mobile, six cartes de liste empilées font environ 2 000 px (une carte compacte pourra s'ajouter avec les vraies données) ; sur desktop le visuel fixé d'une fiche est surtout parlant avec un texte long.
+- **Tests** : `gabarits.test.tsx` (structure, `data-testid` uniques, titres sans saut) ; `e2e/gabarits.spec.ts` (un `h1`, repères, `noindex`, unicité des `data-testid`, aucun défilement horizontal, cibles ≥ 44 px, ordre visuel/texte à 360 et 1280 px, scène d'ouverture et portes).

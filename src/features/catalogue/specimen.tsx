@@ -37,14 +37,12 @@ export function Specimen({ label, children }: { label: string; children: ReactNo
 }
 
 /** Visuel factice : un dégradé produit par le projet, jamais une photo. */
-export function DemoVisual({ tone = "bleu" }: { tone?: "bleu" | "ocre" }) {
-  return (
-    <div
-      className={
-        tone === "bleu"
-          ? "h-full w-full bg-linear-to-br from-bleu to-emeraude"
-          : "h-full w-full bg-linear-to-br from-ocre to-safran"
-      }
-    />
-  );
+const demoTones = {
+  bleu: "bg-linear-to-br from-bleu to-emeraude",
+  emeraude: "bg-linear-to-br from-emeraude to-bleu",
+  ocre: "bg-linear-to-br from-ocre to-safran",
+} as const;
+
+export function DemoVisual({ tone = "bleu" }: { tone?: keyof typeof demoTones }) {
+  return <div className={`h-full w-full ${demoTones[tone]}`} />;
 }
