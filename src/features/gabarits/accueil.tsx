@@ -30,7 +30,7 @@ export function Accueil() {
   const doorsId = useId();
 
   return (
-    <GabaritPage name="accueil">
+    <GabaritPage testId="gabarit-accueil">
       <section
         aria-labelledby={heroId}
         data-testid="gabarit-accueil-hero"

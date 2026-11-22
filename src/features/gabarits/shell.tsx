@@ -6,14 +6,14 @@ import { Header, MAIN_CONTENT_ID } from "@/components/layout/header";
 import type { NavItem } from "@/components/layout/nav-link";
 import { Icon } from "@/components/ui/icons";
 import { PageTransition } from "@/components/motion/page-transition";
-import { gabaritPaths, type GabaritName } from "./paths";
+import { gabaritPaths } from "./paths";
 
 /**
  * Cadre commun des gabarits : en-tête, `<main>`, pied de page, navigation du bas.
- * Le contenu de `<main>` glisse selon le type de navigation (`PageTransition`) ; en-tête et
+ * `<main>` glisse selon le type de navigation (`PageTransition`) ; en-tête et
  * barres restent en place. Les pages de production reprendront ce cadre (phase 4).
  */
-export function GabaritPage({ name, children }: { name: GabaritName; children: ReactNode }) {
+export function GabaritPage({ testId, children }: { testId: string; children: ReactNode }) {
   const t = useTranslations("Gabarits");
 
   const nav: NavItem[] = [
@@ -31,14 +31,21 @@ export function GabaritPage({ name, children }: { name: GabaritName; children: R
   return (
     <>
       <Header items={nav} />
-      <main
-        id={MAIN_CONTENT_ID}
-        tabIndex={-1}
-        data-testid={`gabarit-${name}`}
-        className="focus:outline-none"
-      >
-        <PageTransition>{children}</PageTransition>
-      </main>
+      {/*
+        `PageTransition` autour de `<main>`, en tête de ce que la navigation insère : un
+        `<ViewTransition>` placé sous un élément DOM lui-même nouveau (ici `<main>`) ne joue ni
+        l'entrée ni la sortie, et la page changeait sans glisser.
+      */}
+      <PageTransition>
+        <main
+          id={MAIN_CONTENT_ID}
+          tabIndex={-1}
+          data-testid={testId}
+          className="focus:outline-none"
+        >
+          {children}
+        </main>
+      </PageTransition>
       <Footer links={[{ id: "catalogue", href: "/catalogue", label: t("footerLink") }]} />
       <BottomNav items={nav} />
     </>

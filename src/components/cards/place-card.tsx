@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Heading } from "@/components/ui/heading";
@@ -17,6 +17,8 @@ type PlaceCardProps = {
   category?: string;
   /** Visuel (forme ou dégradé en phase 2, image ensuite) ; décoratif, le titre nomme la carte. */
   visual?: ReactNode;
+  /** Types de la transition de vue du lien (`forwardTransition`, `backTransition`). */
+  transitionTypes?: ComponentProps<typeof Link>["transitionTypes"];
   /** Donnée factice : ajoute l'étiquette « تجريبي ». */
   demo?: boolean;
   className?: string;
@@ -33,6 +35,7 @@ export function PlaceCard({
   summary,
   category,
   visual,
+  transitionTypes,
   demo = false,
   className,
 }: PlaceCardProps) {
@@ -68,6 +71,7 @@ export function PlaceCard({
           {/* Lien étiré : la zone cliquable couvre toute la carte (min. 44 px, de loin). */}
           <Link
             href={href}
+            transitionTypes={transitionTypes}
             data-testid={`place-card-${id}-link`}
             className="after:absolute after:inset-0 focus-visible:outline-none"
           >

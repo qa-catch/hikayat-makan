@@ -27,7 +27,7 @@ export function Lieu() {
   const ui = useTranslations("Ui");
 
   return (
-    <GabaritPage name="lieu">
+    <GabaritPage testId="gabarit-lieu">
       <SplitLayout
         testId="gabarit-lieu-split"
         visual={

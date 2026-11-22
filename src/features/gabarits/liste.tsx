@@ -20,7 +20,7 @@ export function Liste() {
   const resultsId = useId();
 
   return (
-    <GabaritPage name="liste">
+    <GabaritPage testId="gabarit-liste">
       <Container className="space-y-6 py-section">
         <header className="space-y-3">
           <div>
