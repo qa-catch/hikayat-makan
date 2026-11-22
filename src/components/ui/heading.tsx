@@ -16,15 +16,22 @@ const defaultSize: Record<1 | 2 | 3 | 4, HeadingSize> = { 1: "3xl", 2: "2xl", 3:
 type HeadingProps = Omit<ComponentProps<"h1">, "dir"> & {
   level: 1 | 2 | 3 | 4;
   size?: HeadingSize;
+  /** `inverse` : blanc, pour un fond bleu profond, bleu, émeraude ou ocre (paires vérifiées en AA). */
+  tone?: "default" | "inverse";
 };
 
 /** Titre : police et graisse viennent de globals.css ; `dir="auto"` pour les titres mêlant arabe et latin. */
-export function Heading({ level, size, className, ...props }: HeadingProps) {
+export function Heading({ level, size, tone = "default", className, ...props }: HeadingProps) {
   const Tag = `h${level}` as const;
   return (
     <Tag
       dir="auto"
-      className={cn("text-start text-bleu-profond", sizes[size ?? defaultSize[level]], className)}
+      className={cn(
+        "text-start",
+        tone === "inverse" ? "text-white" : "text-bleu-profond",
+        sizes[size ?? defaultSize[level]],
+        className,
+      )}
       {...props}
     />
   );
