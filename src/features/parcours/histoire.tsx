@@ -62,12 +62,7 @@ export function ParcoursHistoire({ place }: { place: ParcoursPlace }) {
           testId={`parcours-scene-${scene.id}`}
           effect={scene.effect}
           focus={scene.focus}
-          visual={
-            <DemoVisual
-              tone={scene.tone}
-              detail={scene.effect === "appear" ? undefined : scene.focus}
-            />
-          }
+          visual={<DemoVisual tone={scene.tone} />}
         >
           {/* Progression sans animation : un trait par scène, de droite à gauche, et le texte. */}
           <p

@@ -5,7 +5,8 @@ import { ButtonLink } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { DirectionalIcon } from "@/components/ui/icons";
 import { Container } from "@/components/layout/container";
-import { ZelligeMedallion, ZelligeStar } from "@/components/zellige/zellige";
+import { ZelligeStar } from "@/components/zellige/zellige";
+import { DemoVisual } from "@/features/catalogue/specimen";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { demoDoors, demoHero, type Tone } from "./demo-data";
@@ -60,10 +61,12 @@ export function Accueil() {
         <div
           aria-hidden="true"
           data-testid="gabarit-accueil-hero-visual"
-          className="flex min-h-[32dvh] flex-1 items-center justify-center bg-linear-to-br from-bleu via-emeraude to-bleu-profond md:basis-1/2"
+          className="relative min-h-[32dvh] flex-1 md:basis-1/2"
         >
-          {/* Accent unique : le médaillon, jamais un motif répété. */}
-          <ZelligeMedallion className="size-32 text-ocre-clair md:size-48" />
+          {/* `absolute` : la hauteur vient de `min-h`, que `h-full` ne sait pas suivre. */}
+          <div className="absolute inset-0">
+            <DemoVisual tone="bleu" />
+          </div>
         </div>
       </section>
 

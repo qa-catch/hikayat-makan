@@ -88,7 +88,8 @@ export const demoStory: {
       title: "مشهد تجريبي ثانٍ",
       tone: "emeraude",
       effect: "zoom",
-      focus: { x: 30, y: 35 },
+      // La fontaine du patio.
+      focus: { x: 50, y: 62 },
       paragraphs: [
         "نص تجريبي قصير للمشهد الثاني، بلا أي واقعة حقيقية.",
         "جملة تجريبية أخرى تُظهر كيف تتتابع النصوص القصيرة بجانب الصورة.",
