@@ -72,7 +72,7 @@ Chaque tâche remplit sa ligne en fin de PR. Rien n'est supposé avant la tâche
 | Composants disponibles                     | T4    | fait (ci-dessous) |
 | Motif de zellige                           | T5    | fait (ci-dessous) |
 | Gabarits de pages                          | T6    | fait (ci-dessous) |
-| Primitives d'animation et leur repli       | T7    | à compléter       |
+| Primitives d'animation et leur repli       | T7    | fait (ci-dessous) |
 
 ### Jetons retenus (T2)
 
@@ -128,3 +128,17 @@ Quatre gabarits sur la route catalogue, `/ar/catalogue/gabarits/<accueil|lieu|hi
 - **Ajouts aux composants** : `Heading` accepte `tone="inverse"` (blanc sur fond bleu profond, bleu, émeraude ou ocre) ; `DemoVisual` a un ton `emeraude`.
 - **Jugement `design-critique`** (captures réelles à 360, 768 et 1280 px) : corrigés : visuel d'ouverture trop court sur mobile (la scène dépassait l'écran de 33 px), dégradé ocre des portes boueux (l'ocre tient 45 % avant de virer au bleu profond), en-tête et fin d'histoire désalignés des scènes sur desktop, texte court des scènes calé en haut face à un visuel de 640 px (centré). Restent notés : sur mobile, six cartes de liste empilées font environ 2 000 px (une carte compacte pourra s'ajouter avec les vraies données) ; sur desktop le visuel fixé d'une fiche est surtout parlant avec un texte long.
 - **Tests** : `gabarits.test.tsx` (structure, `data-testid` uniques, titres sans saut) ; `e2e/gabarits.spec.ts` (un `h1`, repères, `noindex`, unicité des `data-testid`, aucun défilement horizontal, cibles ≥ 44 px, ordre visuel/texte à 360 et 1280 px, scène d'ouverture et portes).
+
+### Primitives d'animation (T7)
+
+Plateforme seule, aucune bibliothèque (choix et sources : `docs/decisions.md`). Composants de `src/components/motion/`, CSS dans `src/styles/globals.css` (bloc « Primitives d'animation »). Démonstration : section « الحركة » du catalogue et gabarit `histoire`.
+
+- **`PageTransition`** : à placer dans chaque page (`GabaritPage` le fait pour `<main>`). Les liens portent `transitionTypes={forwardTransition}` (avancer) ou `backTransition` (revenir) ; sans type (retour du navigateur), pas d'animation. Avancer en RTL : la nouvelle page arrive de la gauche (`--motion-dir`).
+- **`SharedImage`** : `name` identique et unique sur chaque page (ex. `LIEU_VISUAL`) ; le visuel se transforme en l'en-tête de la page suivante si celle-ci est préchargée.
+- **`Scene`** : `effect` = `zoom` (vers `focus`, en % depuis le coin haut gauche du visuel), `pan` (le regard va de droite à gauche) ou `appear` ; visuel fixé (sous l'en-tête sur mobile, à côté du texte dès `md`) qui se transforme au rythme du défilement natif. Le texte n'est jamais animé.
+- **`Reveal`** : fondu et montée à l'entrée dans l'écran ; un bloc déjà visible au chargement l'est tout de suite.
+- **`ZelligeLoader`** : inchangé (T5).
+- **Repli** : `prefers-reduced-motion` → aucune animation (CSS, même sans JavaScript) ; appareil ou connexion modestes → `data-motion="lite"` : fondus seuls, ni glissement, ni morphose, ni effet de scène ; navigateur sans animations pilotées par le défilement → contenu immobile. Seuil et signaux : `src/shared/motion/level.ts`.
+- **Tests** : `src/shared/motion/level.test.ts` (repli), `motion.test.tsx` (contenu complet dans le HTML serveur), `e2e/motion.spec.ts` (texte visible avec `reducedMotion: 'reduce'`, version allégée, défilement natif, clavier, transition de vue).
+- **Jugement `design-critique`** (captures réelles à 360, 768 et 1280 px) : corrigé : sur mobile le visuel défilait avec le texte, l'effet passait inaperçu et le brief demandait un visuel fixé (`stickyOnMobile`). Restent notés : à 360 × 640, fenêtre de lecture ≈ 270 px et un écran sans texte entre deux scènes (à juger sur appareil, T10) ; sur desktop, un texte de scène court laisse un grand vide sous lui (déjà noté en T6) ; un lien placé dans le texte d'une scène pourrait, au clavier, défiler sous le visuel fixé (aucun pour l'instant).
+- **Ajouts** : `SplitLayout` passe dans `components/layout/` (avec `stickyOnMobile`) ; `DemoVisual` accepte un `detail` (médaillon) ; l'espaceur de `BottomNav` compte la bordure de la barre (1 px).

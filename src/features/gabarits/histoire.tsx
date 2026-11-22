@@ -1,5 +1,7 @@
 import { useTranslations } from "next-intl";
+import { SplitLayout } from "@/components/layout/split-layout";
 import { PlaceCard } from "@/components/cards/place-card";
+import { Scene } from "@/components/motion/scene";
 import { NatureBanner } from "@/components/content/nature-banner";
 import { SourceList } from "@/components/content/source-list";
 import { Badge } from "@/components/ui/badge";
@@ -11,13 +13,16 @@ import { DemoVisual } from "@/features/catalogue/specimen";
 import { formatNumber } from "@/shared/i18n/format";
 import { demoNextPlace, demoStory } from "./demo-data";
 import { gabaritPaths } from "./paths";
-import { GabaritPage, SplitLayout } from "./shell";
+import { GabaritPage } from "./shell";
 
 /**
  * Gabarit histoire (lecture immersive) : bandeau de nature en tête, colonne de lecture étroite,
  * une scène par écran (visuel et texte court), sources en fin d'article, puis la suite du
- * parcours. Le visuel fixé qui se transforme arrive avec les primitives (T7, T8).
+ * parcours. Chaque scène est une `Scene` : visuel fixé qui se transforme au défilement.
  */
+
+/** Médaillon d'une scène `pan` : le regard va de droite à gauche (RTL), le visuel glisse vers la droite. */
+const PAN_DETAIL = { x: 40, y: 50 };
 export function Histoire() {
   const t = useTranslations("Gabarits.histoire");
   const cards = useTranslations("Cards");
@@ -39,15 +44,21 @@ export function Histoire() {
       </SplitLayout>
 
       {demoStory.scenes.map((scene) => (
-        <SplitLayout
+        <Scene
           key={scene.id}
           testId={`gabarit-histoire-scene-${scene.id}`}
-          visual={<DemoVisual tone={scene.tone} />}
-          align="center"
+          effect={scene.effect}
+          focus={scene.focus}
+          visual={
+            <DemoVisual
+              tone={scene.tone}
+              detail={scene.effect === "appear" ? undefined : (scene.focus ?? PAN_DETAIL)}
+            />
+          }
         >
           <Heading level={2}>{scene.title}</Heading>
           <LongText paragraphs={scene.paragraphs} />
-        </SplitLayout>
+        </Scene>
       ))}
 
       <SplitLayout testId="gabarit-histoire-suite">

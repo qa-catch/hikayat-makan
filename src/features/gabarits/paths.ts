@@ -7,3 +7,6 @@ export const gabaritPaths = {
 } as const;
 
 export type GabaritName = keyof typeof gabaritPaths;
+
+/** Nom du visuel partagé (`SharedImage`) entre un lien vers la fiche lieu et son en-tête. */
+export const LIEU_VISUAL = "gabarit-lieu-visual";

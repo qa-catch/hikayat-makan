@@ -1,5 +1,8 @@
 import { useTranslations } from "next-intl";
 import { StoryCard } from "@/components/cards/story-card";
+import { SplitLayout } from "@/components/layout/split-layout";
+import { backTransition } from "@/components/motion/page-transition";
+import { SharedImage } from "@/components/motion/shared-image";
 import { SourceList } from "@/components/content/source-list";
 import { UnverifiedNotice } from "@/components/content/unverified-notice";
 import { Badge } from "@/components/ui/badge";
@@ -11,11 +14,12 @@ import { Link } from "@/i18n/navigation";
 import { demoSources } from "@/features/catalogue/demo-data";
 import { DemoVisual } from "@/features/catalogue/specimen";
 import { demoPlace, demoRelatedStories } from "./demo-data";
-import { gabaritPaths } from "./paths";
-import { GabaritPage, SplitLayout } from "./shell";
+import { LIEU_VISUAL, gabaritPaths } from "./paths";
+import { GabaritPage } from "./shell";
 
 /**
- * Gabarit fiche lieu : le visuel de la carte devient l'en-tête (T8 animera ce passage). Mobile :
+ * Gabarit fiche lieu : le visuel d'en-tête est partagé (`SharedImage`, nom `LIEU_VISUAL`) ; la
+ * carte qui y mène portera le même nom (T8). Mobile :
  * visuel en haut, texte dessous ; tablette et desktop : visuel d'un côté, texte de l'autre.
  */
 export function Lieu() {
@@ -24,9 +28,17 @@ export function Lieu() {
 
   return (
     <GabaritPage name="lieu">
-      <SplitLayout testId="gabarit-lieu-split" visual={<DemoVisual tone="emeraude" />}>
+      <SplitLayout
+        testId="gabarit-lieu-split"
+        visual={
+          <SharedImage name={LIEU_VISUAL}>
+            <DemoVisual tone="emeraude" />
+          </SharedImage>
+        }
+      >
         <Link
           href={gabaritPaths.liste}
+          transitionTypes={backTransition}
           data-testid="gabarit-lieu-back"
           className="inline-flex min-h-touch items-center gap-1 text-base font-bold text-bleu underline decoration-1 underline-offset-4"
         >
