@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { MotionLevel } from "@/components/motion/motion-level";
 import { directions, routing } from "@/i18n/routing";
 import { resolveSiteUrl } from "@/shared/seo/site";
 import { texte, titre } from "@/styles/fonts";
@@ -40,6 +41,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           ses libellés en props, ou son espace de noms via `pick` (next-intl).
         */}
         <NextIntlClientProvider messages={{}}>{children}</NextIntlClientProvider>
+        {/* Niveau d'animation (`data-motion` sur <html>), décidé après l'hydratation. */}
+        <MotionLevel />
       </body>
     </html>
   );

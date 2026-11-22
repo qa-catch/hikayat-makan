@@ -1,5 +1,6 @@
 import { useId, type ReactNode } from "react";
 import { Heading } from "@/components/ui/heading";
+import { ZelligeMedallion } from "@/components/zellige/zellige";
 
 /** Section du catalogue : un composant et tous ses états. */
 export function Section({
@@ -43,6 +44,28 @@ const demoTones = {
   ocre: "bg-linear-to-br from-ocre to-safran",
 } as const;
 
-export function DemoVisual({ tone = "bleu" }: { tone?: keyof typeof demoTones }) {
-  return <div className={`h-full w-full ${demoTones[tone]}`} />;
+/**
+ * `detail` : un médaillon de zellige posé à ce point (en % depuis le coin haut gauche), seul
+ * accent du visuel ; rend visibles le zoom et le déplacement d'une scène (`Scene`).
+ */
+export function DemoVisual({
+  tone = "bleu",
+  detail,
+}: {
+  tone?: keyof typeof demoTones;
+  detail?: { x: number; y: number };
+}) {
+  return (
+    <div className={`relative h-full w-full ${demoTones[tone]}`}>
+      {detail && (
+        // Coordonnées physiques : une image ne s'inverse pas en RTL.
+        <span
+          className="absolute size-20 -translate-1/2"
+          style={{ left: `${detail.x}%`, top: `${detail.y}%` }}
+        >
+          <ZelligeMedallion className="size-full text-white" />
+        </span>
+      )}
+    </div>
+  );
 }

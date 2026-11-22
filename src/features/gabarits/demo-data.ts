@@ -3,6 +3,7 @@
  * Chaque texte est marqué « تجريبي » ; fichier statique, jamais en base, importé par la seule
  * route catalogue (hors production).
  */
+import type { SceneEffect } from "@/components/motion/scene";
 import type { Nature } from "@/shared/content/nature";
 import { gabaritPaths } from "./paths";
 
@@ -60,7 +61,15 @@ export const demoStory: {
   title: string;
   nature: Nature;
   minutes: number;
-  scenes: readonly { id: string; title: string; tone: Tone; paragraphs: readonly string[] }[];
+  scenes: readonly {
+    id: string;
+    title: string;
+    tone: Tone;
+    /** Effet de la scène (`Scene`) ; `focus` : détail visé par le zoom, en % du visuel. */
+    effect: SceneEffect;
+    focus?: { x: number; y: number };
+    paragraphs: readonly string[];
+  }[];
 } = {
   id: "demo-histoire",
   title: "حكاية تجريبية",
@@ -71,12 +80,15 @@ export const demoStory: {
       id: "1",
       title: "مشهد تجريبي أول",
       tone: "bleu",
+      effect: "appear",
       paragraphs: ["نص تجريبي قصير للمشهد الأول، بلا أي واقعة حقيقية."],
     },
     {
       id: "2",
       title: "مشهد تجريبي ثانٍ",
       tone: "emeraude",
+      effect: "zoom",
+      focus: { x: 30, y: 35 },
       paragraphs: [
         "نص تجريبي قصير للمشهد الثاني، بلا أي واقعة حقيقية.",
         "جملة تجريبية أخرى تُظهر كيف تتتابع النصوص القصيرة بجانب الصورة.",
@@ -86,6 +98,7 @@ export const demoStory: {
       id: "3",
       title: "مشهد تجريبي ثالث",
       tone: "ocre",
+      effect: "pan",
       paragraphs: ["نص تجريبي قصير للمشهد الثالث، بلا أي واقعة حقيقية."],
     },
   ],

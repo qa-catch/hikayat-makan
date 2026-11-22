@@ -7,7 +7,7 @@ import { NavLink, type NavItem } from "./nav-link";
  * (voir `viewport` dans app/[locale]/layout.tsx).
  *
  * À placer en dernier dans le `<body>` : l'espaceur qui précède la barre (fixe) évite qu'elle
- * ne recouvre la fin de la page.
+ * ne recouvre la fin de la page (hauteur de la barre, bordure de 1 px comprise).
  */
 export function BottomNav({ items }: { items: readonly NavItem[] }) {
   const t = useTranslations("Layout");
@@ -16,7 +16,7 @@ export function BottomNav({ items }: { items: readonly NavItem[] }) {
     <>
       <div
         aria-hidden="true"
-        className="h-[calc(var(--spacing-nav)+env(safe-area-inset-bottom))] md:hidden"
+        className="h-[calc(var(--spacing-nav)+1px+env(safe-area-inset-bottom))] md:hidden"
       />
       <nav
         aria-label={t("mainNav")}

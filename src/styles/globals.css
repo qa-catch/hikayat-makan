@@ -182,3 +182,180 @@ body {
     outline-offset: 2px;
   }
 }
+
+/*
+ * Primitives d'animation (T7, src/components/motion/). `transform` et `opacity` seulement.
+ * Trois niveaux, posés sur <html> par `MotionLevel` (src/shared/motion/level.ts) :
+ * `full` (par défaut, aussi avant le JavaScript), `lite` (fondus seulement), `none`.
+ * `prefers-reduced-motion: reduce` coupe tout, même sans JavaScript.
+ * `--motion-dir` : sens de lecture ; en RTL, avancer va vers la gauche.
+ */
+:root {
+  --motion-dir: 1;
+  --motion-slide: 3rem;
+}
+
+:root[dir="rtl"] {
+  --motion-dir: -1;
+}
+
+@keyframes motion-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes motion-slide {
+  from {
+    transform: translateX(var(--motion-offset));
+  }
+}
+
+/* PageTransition : clics transmis à la page pendant la transition. */
+::view-transition {
+  pointer-events: none;
+}
+
+/* Avancer : l'ancienne page part vers l'arrière du sens de lecture, la nouvelle arrive de l'avant. */
+::view-transition-old(.nav-forward),
+::view-transition-new(.nav-back) {
+  --motion-offset: calc(var(--motion-dir) * var(--motion-slide) * -1);
+}
+
+::view-transition-new(.nav-forward),
+::view-transition-old(.nav-back) {
+  --motion-offset: calc(var(--motion-dir) * var(--motion-slide));
+}
+
+::view-transition-old(.nav-forward),
+::view-transition-old(.nav-back) {
+  animation:
+    var(--transition-duration-exit) var(--ease-exit) both motion-fade reverse,
+    var(--transition-duration-enter) var(--ease-exit) both motion-slide reverse;
+}
+
+::view-transition-new(.nav-forward),
+::view-transition-new(.nav-back) {
+  animation:
+    var(--transition-duration-enter) var(--ease-enter) var(--transition-duration-exit) both
+      motion-fade,
+    calc(var(--transition-duration-enter) + var(--transition-duration-exit)) var(--ease-enter) both
+      motion-slide;
+}
+
+/* SharedImage : la morphose prend la durée et la courbe des scènes. */
+::view-transition-group(.morph) {
+  animation-duration: var(--transition-duration-scene);
+  animation-timing-function: var(--ease-scene);
+}
+
+/* Version allégée : fondu seul entre pages, visuel partagé remplacé sans morphose. */
+:root[data-motion="lite"]::view-transition-old(.nav-forward),
+:root[data-motion="lite"]::view-transition-old(.nav-back) {
+  animation: var(--transition-duration-exit) var(--ease-exit) both motion-fade reverse;
+}
+
+:root[data-motion="lite"]::view-transition-new(.nav-forward),
+:root[data-motion="lite"]::view-transition-new(.nav-back) {
+  animation: var(--transition-duration-enter) var(--ease-enter) both motion-fade;
+}
+
+:root[data-motion="lite"]::view-transition-group(.morph) {
+  animation-duration: 0s;
+}
+
+/* Réduction des animations : changement de page instantané. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/*
+ * Reveal et Scene : animations pilotées par le défilement natif (Baseline 2026). Sans prise en
+ * charge, rien ne s'applique : contenu immobile et visible. `animation-duration: 1ms` : exigé par
+ * Firefox pour une chronologie de défilement (MDN) ; `animation-timeline` après le raccourci,
+ * qui la remet à zéro.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .motion-reveal {
+      animation: motion-reveal linear both;
+      animation-duration: 1ms;
+      animation-timeline: view();
+      animation-range: entry 10% entry 90%;
+    }
+
+    :root[data-motion="lite"] .motion-reveal {
+      animation-name: motion-fade;
+    }
+
+    .motion-scene {
+      view-timeline: --motion-scene block;
+    }
+
+    .motion-scene-visual {
+      animation: none linear both;
+      animation-duration: 1ms;
+      animation-timeline: --motion-scene;
+      animation-range: entry 50% exit 50%;
+      transform-origin: var(--scene-focus, center);
+    }
+
+    .motion-scene-visual[data-effect="zoom"] {
+      animation-name: motion-scene-zoom;
+    }
+
+    .motion-scene-visual[data-effect="pan"] {
+      animation-name: motion-scene-pan;
+    }
+
+    .motion-scene-visual[data-effect="appear"] {
+      animation-name: motion-scene-appear;
+    }
+
+    :root[data-motion="lite"] .motion-scene-visual {
+      animation: none;
+    }
+  }
+}
+
+@keyframes motion-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
+@keyframes motion-scene-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.5);
+  }
+}
+
+/* Agrandi de 20 % pour que le déplacement (6 %) ne découvre jamais un bord. */
+@keyframes motion-scene-pan {
+  from {
+    transform: scale(1.2) translateX(calc(var(--motion-dir) * 6%));
+  }
+  to {
+    transform: scale(1.2) translateX(calc(var(--motion-dir) * -6%));
+  }
+}
+
+@keyframes motion-scene-appear {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  40%,
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
