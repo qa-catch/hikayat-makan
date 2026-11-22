@@ -23,6 +23,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { SharedImage } from "@/components/motion/shared-image";
 import { ZelligeLoader } from "@/components/motion/zellige-loader";
 import { LIEU_VISUAL, gabaritPaths } from "@/features/gabarits/paths";
+import { parcoursPaths } from "@/features/parcours/paths";
 import { NATURES } from "@/shared/content/nature";
 import {
   demoLatinParagraphs,
@@ -384,6 +385,14 @@ export function Catalogue() {
                   {t(`templates.${name}`)}
                 </ButtonLink>
               ))}
+              <ButtonLink
+                href={parcoursPaths.depart}
+                transitionTypes={forwardTransition}
+                variant="secondary"
+                data-testid="catalogue-template-parcours"
+              >
+                {t("templates.parcours")}
+              </ButtonLink>
             </div>
           </Section>
         </Container>

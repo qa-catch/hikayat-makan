@@ -73,6 +73,7 @@ Chaque tâche remplit sa ligne en fin de PR. Rien n'est supposé avant la tâche
 | Motif de zellige                           | T5    | fait (ci-dessous) |
 | Gabarits de pages                          | T6    | fait (ci-dessous) |
 | Primitives d'animation et leur repli       | T7    | fait (ci-dessous) |
+| Prototype du parcours « الرحلة »           | T8    | fait (ci-dessous) |
 
 ### Jetons retenus (T2)
 
@@ -133,7 +134,7 @@ Quatre gabarits sur la route catalogue, `/ar/catalogue/gabarits/<accueil|lieu|hi
 
 Plateforme seule, aucune bibliothèque (choix et sources : `docs/decisions.md`). Composants de `src/components/motion/`, CSS dans `src/styles/globals.css` (bloc « Primitives d'animation »). Démonstration : section « الحركة » du catalogue et gabarit `histoire`.
 
-- **`PageTransition`** : à placer dans chaque page (`GabaritPage` le fait pour `<main>`). Les liens portent `transitionTypes={forwardTransition}` (avancer) ou `backTransition` (revenir) ; sans type (retour du navigateur), pas d'animation. Avancer en RTL : la nouvelle page arrive de la gauche (`--motion-dir`).
+- **`PageTransition`** : à placer dans chaque page, en tête de ce que la navigation insère (`GabaritPage` l'enveloppe autour de `<main>` ; placé dans `<main>`, il ne jouait pas, corrigé en T8). Les liens portent `transitionTypes={forwardTransition}` (avancer) ou `backTransition` (revenir) ; sans type (retour du navigateur), pas d'animation. Avancer en RTL : la nouvelle page arrive de la gauche (`--motion-dir`).
 - **`SharedImage`** : `name` identique et unique sur chaque page (ex. `LIEU_VISUAL`) ; le visuel se transforme en l'en-tête de la page suivante si celle-ci est préchargée.
 - **`Scene`** : `effect` = `zoom` (vers `focus`, en % depuis le coin haut gauche du visuel), `pan` (le regard va de droite à gauche) ou `appear` ; visuel fixé (sous l'en-tête sur mobile, à côté du texte dès `md`) qui se transforme au rythme du défilement natif. Le texte n'est jamais animé.
 - **`Reveal`** : fondu et montée à l'entrée dans l'écran ; un bloc déjà visible au chargement l'est tout de suite.
@@ -142,3 +143,14 @@ Plateforme seule, aucune bibliothèque (choix et sources : `docs/decisions.md`).
 - **Tests** : `src/shared/motion/level.test.ts` (repli), `motion.test.tsx` (contenu complet dans le HTML serveur), `e2e/motion.spec.ts` (texte visible avec `reducedMotion: 'reduce'`, version allégée, défilement natif, clavier, transition de vue).
 - **Jugement `design-critique`** (captures réelles à 360, 768 et 1280 px) : corrigé : sur mobile le visuel défilait avec le texte, l'effet passait inaperçu et le brief demandait un visuel fixé (`stickyOnMobile`). Restent notés : à 360 × 640, fenêtre de lecture ≈ 270 px et un écran sans texte entre deux scènes (à juger sur appareil, T10) ; sur desktop, un texte de scène court laisse un grand vide sous lui (déjà noté en T6) ; un lien placé dans le texte d'une scène pourrait, au clavier, défiler sous le visuel fixé (aucun pour l'instant).
 - **Ajouts** : `SplitLayout` passe dans `components/layout/` (avec `stickyOnMobile`) ; `DemoVisual` accepte un `detail` (médaillon) ; l'espaceur de `BottomNav` compte la bordure de la barre (1 px).
+
+### Prototype du parcours « الرحلة » (T8)
+
+`/ar/catalogue/parcours` (`noindex`, 404 en production), lien « نموذج الرحلة » dans la section « القوالب » du catalogue. Données factices de `src/features/parcours/data.ts` (deux lieux, une histoire de trois scènes chacun), libellés dans `Parcours` de `messages/ar.json`. Seules les primitives de T7 animent.
+
+- **Entrer** : départ (`ParcoursDepart`, cartes de lieu) → fiche (`ParcoursLieu`) ; la carte et l'en-tête de la fiche portent le même `SharedImage` (`parcours-<id>-visual`), liens `forwardTransition` ; « العودة إلى الأماكن » (`backTransition`) fait le chemin inverse.
+- **Parcourir** : « اقرأ «…» » → `ParcoursHistoire` : une `Scene` par écran (`appear`, `zoom`, `pan`) ; en tête de chaque scène, sa place (« المشهد n من N ») et un trait par scène, rempli de droite à gauche, sans animation.
+- **Poursuivre** : après les sources, « تابع الرحلة » ouvre sur l'autre lieu (le parcours boucle) ; sa carte partage son visuel avec l'en-tête de la fiche d'arrivée.
+- **Tests** : `parcours.test.tsx` (données, structure, HTML serveur complet) ; `e2e/parcours.spec.ts` (parcours complet avant, retour et fin d'histoire, avec et sans réduction des animations ; glissement à chaque lien typé, morphose carte ↔ en-tête ; aucune animation avec `prefers-reduced-motion` ; 404 d'un lieu inconnu).
+- **Jugement `design-critique`** (captures réelles à 360, 768 et 1280 px) : continuité réussie (la teinte de la carte devient l'en-tête, puis le visuel de la première scène). Restent notés : à 360 × 740 le bouton « اقرأ » de la fiche tombe sous la ligne de flottaison (avis « قيد التحقق » avant lui) ; traits de progression inactifs pâles (décoratifs, le texte porte l'information). Morphose et glissements : à juger sur appareil (T10), les captures Playwright n'affichant pas la couche des transitions.
+- **Validation émulée sur la preview** (2026-11-22, Edge, profil Pixel 7, processeur ralenti 4×, réseau « Slow 4G » de Lighthouse : 150 ms, 1,6 Mb/s) : départ chargé en 292 Kio, LCP 1,3 s, CLS 0, niveau `full` (`effectiveType` 4g). Chaque étape (entrer, ouvrir l'histoire, poursuivre, revenir) affiche son `h1` en 110 à 300 ms, avec glissement, et morphose quand une carte est en jeu ; 57 à 60 images/s, 95ᵉ centile à 17 ms, au plus une image > 50 ms par transition, aucune tâche longue. Défilement des scènes : 60 images/s, aucun texte masqué. Mêmes résultats sans aucune transition avec `prefers-reduced-motion`. Le passage sur un vrai smartphone reste à faire (T10).

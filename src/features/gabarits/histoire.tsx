@@ -29,7 +29,7 @@ export function Histoire() {
   const ui = useTranslations("Ui");
 
   return (
-    <GabaritPage name="histoire">
+    <GabaritPage testId="gabarit-histoire">
       <SplitLayout testId="gabarit-histoire-header">
         <header className="space-y-4">
           <NatureBanner nature={demoStory.nature} />
