@@ -1,4 +1,4 @@
-﻿# Brief de design — « حكاية مكان »
+# Brief de design — « حكاية مكان »
 
 Direction unique de tous les écrans publics. Source : `histoir_place_outOfScop.md` § 19 et § 19.1, resserrée par `PLAN_PHASE_2.md`. Complété au fil des tâches de la phase 2 (§ « À compléter »).
 
@@ -162,3 +162,8 @@ Plateforme seule, aucune bibliothèque (choix et sources : `docs/decisions.md`).
 - **`DemoVisual`** perd `detail` : le médaillon posé sur le dégradé ne servait qu'à rendre le zoom visible ; le zoom vise désormais un détail de l'illustration (lumière de la porte, fontaine, étoile).
 - **Poids** (balisage rendu) : 2,7 à 3,1 Kio bruts, 794 o gzip au plus (`illustrations.test.tsx`).
 - **Jugement `design-critique`** (captures réelles à 360, 768 et 1280 px) : corrigés : croissant coupé sur les visuels hauts, tapis et poteries du souk hors cadre sur le bureau, médaillon superposé qui flottait au hasard sur l'illustration. Reste noté : à 768 px, la colonne visuelle de l'accueil est très haute et étroite, la porte y est vue de près (mise en page de T6).
+
+### Images de partage (T9)
+
+- `src/app/[locale]/opengraph-image.png` (1200 × 630) et `src/app/apple-icon.png` (180 px) : captures de `/ar/catalogue/partage` (`src/features/partage/cards.tsx`) par `pnpm og:image`, serveur lancé. Les régénérer après tout changement du logo, des jetons ou des textes `Metadata`.
+- `ImageResponse` (`next/og`) est écarté : il ne façonne pas l'arabe (`docs/decisions.md`).

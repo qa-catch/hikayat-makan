@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 import messages from "../messages/ar.json";
 
@@ -6,6 +7,7 @@ import messages from "../messages/ar.json";
 
 const SITEMAP_NS = "http://www.sitemaps.org/schemas/sitemap/0.9";
 const { title, description } = messages.Metadata;
+const ogAlt = readFileSync("src/app/[locale]/opengraph-image.alt.txt", "utf8").trim();
 
 test.describe("HTML serveur, sans JavaScript", () => {
   test.use({ javaScriptEnabled: false });
@@ -28,6 +30,29 @@ test.describe("HTML serveur, sans JavaScript", () => {
     expect(await meta("property", "og:locale")).toBe("ar_MA");
     expect(await meta("property", "og:title")).toBe(title);
     expect(await meta("property", "og:description")).toBe(description);
+  });
+
+  test("/ar donne une image de partage et une icône iOS servies en PNG", async ({
+    page,
+    request,
+  }) => {
+    await page.goto("/ar");
+    const meta = (property: string) =>
+      page.locator(`meta[property="${property}"]`).getAttribute("content");
+
+    const image = await meta("og:image");
+    expect(image).toMatch(/\/-\/opengraph-image\.png\?/);
+    expect(await meta("og:image:width")).toBe("1200");
+    expect(await meta("og:image:height")).toBe("630");
+    expect(await meta("og:image:alt")).toBe(ogAlt);
+    expect(await meta("og:image:type")).toBe("image/png");
+
+    const appleIcon = await page.locator('link[rel="apple-touch-icon"]').getAttribute("href");
+    for (const url of [image!, new URL(appleIcon!, page.url()).href]) {
+      const response = await request.get(url);
+      expect(response.status(), url).toBe(200);
+      expect(response.headers()["content-type"]).toBe("image/png");
+    }
   });
 
   test("/ar est indexable : ni meta robots ni X-Robots-Tag", async ({ page }) => {
