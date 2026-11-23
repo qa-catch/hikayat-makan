@@ -67,6 +67,14 @@ const pairs: [text: string, background: string, min: number][] = [
   ["ocre", "chaux", LARGE_OR_UI],
   ["safran", "bleu-profond", LARGE_OR_UI],
   ["safran", "bleu", LARGE_OR_UI],
+  // Sections nuit : texte, accents et focus (safran : le bleu n'y passe pas).
+  ...["nuit", "nuit-claire"].flatMap((bg): [string, string, number][] => [
+    ["chaux", bg, TEXT],
+    ["chaux-douce", bg, TEXT],
+    ["safran", bg, TEXT],
+    ["emeraude-nuit", bg, TEXT],
+  ]),
+  ["nuit", "safran", TEXT],
 ];
 
 describe("contraste AA des jetons de couleur", () => {

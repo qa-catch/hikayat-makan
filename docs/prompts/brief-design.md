@@ -16,9 +16,9 @@ Projet : « حكاية مكان », plateforme marocaine de découverte du patri
 Langue arabe, RTL, mobile d'abord (360 px), responsive tablette et desktop.
 Identité : patrimoine marocain moderne et premium, jamais folklorique.
   Zellige, arcs et matières en accents seulement (séparateurs, cadres,
-  états vides), jamais en fond permanent. Palette : bleu profond, émeraude,
-  ocre, safran, blanc chaux ; une couleur dominante, les autres en accent ;
-  contrastes AA. Typographie arabe soignée : police de titres de caractère,
+  états vides), jamais en fond permanent. Palette : bleu cobalt dominant,
+  émeraude, ocre, safran en accent, fond blanc chaux ; des sections pleine
+  largeur en nuit (accueil, récit), sans mode sombre ; contrastes AA. Typographie arabe soignée : police de titres de caractère,
   police de texte très lisible à l'écran, interlignage généreux.
 Navigation « الرحلة » en trois gestes : Entrer (l'image de la carte devient
   l'en-tête, comme une porte), Parcourir (scènes : visuel fixé qui se
@@ -79,7 +79,7 @@ Chaque tâche remplit sa ligne en fin de PR. Rien n'est supposé avant la tâche
 
 Source unique : `@theme` de `src/styles/globals.css`. Les couleurs, rayons et courbes par défaut de Tailwind sont retirés : seuls ces jetons existent. Contrastes AA vérifiés par `src/styles/tokens.test.ts` ; toute nouvelle paire texte/fond s'ajoute à la liste du test.
 
-- **Couleurs** : dominante `bleu` (`bleu-profond`, `bleu-clair`) ; accents `emeraude`, `ocre`, `safran` (chacun avec sa variante `-clair`) ; fonds `chaux`, `chaux-sombre` ; texte `encre`, `encre-douce` ; état `erreur`. Safran : fond ou élément d'interface seulement, jamais en texte sur fond clair.
+- **Couleurs** : dominante `bleu` (cobalt depuis la refonte ; `bleu-profond`, `bleu-clair`) ; accents `emeraude`, `ocre`, `safran` (chacun avec sa variante `-clair`) ; fonds `chaux`, `chaux-sombre` ; sections `nuit`, `nuit-claire` ; texte `encre`, `encre-douce`, et sur nuit `chaux`, `chaux-douce` ; état `erreur`. Safran : fond ou élément d'interface seulement, jamais en texte sur fond clair.
 - **Rayons** : `sm`, `md`, `lg`, `full`.
 - **Espacements** : base 4 px de Tailwind (`p-4`…) et trois jetons nommés : `gutter` (1 rem), `section` (3 rem), `touch` (2,75 rem = zone tactile 44 px, `min-h-touch`).
 - **Durées** : `duration-enter` (240 ms), `duration-exit` (160 ms), `duration-scene` (600 ms).
@@ -167,3 +167,12 @@ Plateforme seule, aucune bibliothèque (choix et sources : `docs/decisions.md`).
 
 - `src/app/[locale]/opengraph-image.png` (1200 × 630) et `src/app/apple-icon.png` (180 px) : captures de `/ar/catalogue/partage` (`src/features/partage/cards.tsx`) par `pnpm og:image`, serveur lancé. Les régénérer après tout changement du logo, des jetons ou des textes `Metadata`.
 - `ImageResponse` (`next/og`) est écarté : il ne façonne pas l'arabe (`docs/decisions.md`).
+
+### Refonte : direction artistique (2026-11-23)
+
+Trois directions comparées sur un canevas (A « ليل الحكاية » nuit cinématique, B « ضوء الجير » lumière éditoriale, C « زليج حيّ » zellige graphique) ; retenu : un mélange. Cette première étape ne fixe que les couleurs ; polices et mise en page suivront, chacune dans sa PR.
+
+- **Fond** : chaux partout ; sections pleine largeur en `nuit` (A) pour l'accueil et le récit. Ce n'est pas un mode sombre : la page reste en `color-scheme: light`.
+- **Dominante** : cobalt `#1d3f8f` (C), porté par les jetons `bleu` existants (`bleu-profond` `#142c66`, `bleu-clair` `#dfe6f5`) : aucun composant à renommer.
+- **Accents** (portes, chapitres, illustrations) : `emeraude`, `safran` ; sur nuit, `emeraude-nuit` `#45b88f` (A), illisible sur fond clair. `ocre` reste disponible, la terre cuite de B et C n'est pas retenue.
+- **Sur nuit** : texte `chaux`, secondaire `chaux-douce` ; surfaces `nuit-claire` ; focus et liens en `safran` (le cobalt n'y atteint que 1,9:1) ; texte `nuit` sur bouton `safran`.
