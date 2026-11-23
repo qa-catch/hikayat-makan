@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { BrandMark } from "@/components/ui/brand-mark";
 import { Link } from "@/i18n/navigation";
 import { Container } from "./container";
 import { NavLink, type NavItem } from "./nav-link";
@@ -29,8 +30,9 @@ export function Header({ items }: { items: readonly NavItem[] }) {
         <Link
           href="/"
           data-testid="site-header-brand"
-          className="inline-flex min-h-touch items-center font-titre text-lg font-bold text-bleu-profond"
+          className="inline-flex min-h-touch items-center gap-2 font-titre text-lg font-bold text-bleu-profond"
         >
+          <BrandMark className="size-8" />
           {t("brand")}
         </Link>
         <nav aria-label={t("mainNav")} data-testid="nav-header" className="hidden md:block">

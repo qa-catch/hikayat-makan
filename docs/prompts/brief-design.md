@@ -1,4 +1,4 @@
-# Brief de design — « حكاية مكان »
+﻿# Brief de design — « حكاية مكان »
 
 Direction unique de tous les écrans publics. Source : `histoir_place_outOfScop.md` § 19 et § 19.1, resserrée par `PLAN_PHASE_2.md`. Complété au fil des tâches de la phase 2 (§ « À compléter »).
 
@@ -100,7 +100,7 @@ Détail, licence, source et mesures : `docs/polices.md`. Auto-hébergées, 94 Ki
 Catalogue visuel : `/ar/catalogue` (`noindex`, absent en production, données factices de `src/features/catalogue/demo-data.ts`). Tous les composants sont des composants serveur, sauf `NavLink` (lit le chemin courant) ; les libellés viennent de `messages/ar.json`, les données de props. Chaque instance prend un `data-testid` stable (`docs/conventions.md`).
 
 - **`components/ui/`** : `Button` / `ButtonLink` (`primary`, `secondary`, `ghost`), `TextLink` (`inline` seulement au milieu d'une phrase), `Heading` (niveau = structure, `size` = apparence), `LongText` (colonne `max-w-prose`, un `<p dir="auto">` par paragraphe), `Badge` (5 tons), `Icon` et `DirectionalIcon` (`forward` / `back`, inversée en RTL), `Skeleton` (`text`, `visual`, `card`), `EmptyState`.
-- **`components/layout/`** : `Header` (lien d'évitement, marque, navigation à partir de `md`), `BottomNav` (mobile, zone sûre du bas, espaceur inclus, à placer en dernier du `<body>`), `Footer`, `Container` (zones sûres latérales), `NavLink` et `NavItem`.
+- **`components/layout/`** : `Header` (lien d'évitement, marque : `BrandMark` de `components/ui/brand-mark.tsx` suivi du nom, navigation à partir de `md`), `BottomNav` (mobile, zone sûre du bas, espaceur inclus, à placer en dernier du `<body>`), `Footer`, `Container` (zones sûres latérales), `NavLink` et `NavItem`.
 - **`components/cards/`** : `PlaceCard`, `StoryCard` (un seul lien par carte, étiré sur toute la carte ; focus dessiné sur la carte).
 - **`components/content/`** : `NatureBanner` (4 natures), `UnverifiedNotice`, `SourceList`.
 - **Règles** : cibles tactiles ≥ 44 px (`min-h-touch`) hors liens en phrase ; focus visible global (`:focus-visible`, 2 px bleu ; `outline-safran` sur fond bleu profond) ; `dir="auto"` sur tout contenu venant des données ; la couleur ne porte jamais seule la nature d'un contenu ; aucune transition de couleur (`transform` et `opacity` seulement).
