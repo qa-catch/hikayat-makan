@@ -1,9 +1,10 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/cn";
 
+// Reem Kufi (affiche) dès 2xl seulement : en dessous, ج et ب initiaux se confondent (docs/polices.md).
 const sizes = {
-  "3xl": "text-3xl",
-  "2xl": "text-2xl",
+  "3xl": "font-affiche text-3xl",
+  "2xl": "font-affiche text-2xl",
   xl: "text-xl",
   lg: "text-lg",
 } as const;

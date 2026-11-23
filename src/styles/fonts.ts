@@ -21,10 +21,22 @@ export const texte = localFont({
   fallback: ["system-ui", "sans-serif"],
 });
 
-/** Titres : Noto Kufi Arabic, graisse 700 seule. */
+/** Petits titres (xl, lg) et marque ; repli des glyphes absents de Reem Kufi (ڭ ﷲ ﷺ). */
 export const titre = localFont({
   src: [{ path: "./fonts/noto-kufi-arabic-700.woff2", weight: "700", style: "normal" }],
   variable: "--police-titre",
   display: "swap",
   fallback: ["system-ui", "sans-serif"],
+});
+
+/**
+ * Grands titres (3xl, 2xl, refonte) : Reem Kufi, graisse 700 seule. À taille égale, son œil est
+ * plus petit que celui de Noto Kufi : `size-adjust` le ramène à la même échelle (docs/polices.md).
+ */
+export const affiche = localFont({
+  src: [{ path: "./fonts/reem-kufi-700.woff2", weight: "700", style: "normal" }],
+  variable: "--police-affiche",
+  display: "swap",
+  fallback: ["system-ui", "sans-serif"],
+  declarations: [{ prop: "size-adjust", value: "115%" }],
 });

@@ -156,6 +156,9 @@
 @theme inline {
   --font-texte: var(--police-texte), system-ui, sans-serif;
   --font-titre: var(--police-titre), var(--police-texte), system-ui, sans-serif;
+  /* Grands titres ; Noto Kufi juste derrière fournit les glyphes absents de Reem Kufi (ڭ ﷲ ﷺ). */
+  --font-affiche:
+    var(--police-affiche), var(--police-titre), var(--police-texte), system-ui, sans-serif;
 }
 
 :root {

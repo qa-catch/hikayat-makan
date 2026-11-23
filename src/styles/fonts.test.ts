@@ -6,15 +6,17 @@ const dir = join(__dirname, "fonts");
 const files = readdirSync(dir);
 const woff2 = files.filter((name) => name.endsWith(".woff2"));
 
-// Budget des polices (T3) : au-delà, discuter avant d'ajouter une graisse ou une police.
-const BUDGET_OCTETS = 100 * 1024;
+// Budget des polices (T3, relevé à la refonte pour Reem Kufi) : au-delà, discuter avant d'ajouter
+// une graisse ou une police.
+const BUDGET_OCTETS = 115 * 1024;
 
 describe("polices auto-hébergées", () => {
-  it("contient les trois fichiers attendus", () => {
+  it("contient les quatre fichiers attendus", () => {
     expect(woff2.sort()).toEqual([
       "noto-kufi-arabic-700.woff2",
       "noto-sans-arabic-400.woff2",
       "noto-sans-arabic-700.woff2",
+      "reem-kufi-700.woff2",
     ]);
   });
 
@@ -28,7 +30,7 @@ describe("polices auto-hébergées", () => {
   });
 
   it("garde le texte de la licence OFL de chaque famille", () => {
-    for (const famille of ["NotoKufiArabic", "NotoSansArabic"]) {
+    for (const famille of ["NotoKufiArabic", "NotoSansArabic", "ReemKufi"]) {
       const texte = readFileSync(join(dir, `OFL-${famille}.txt`), "utf8");
       expect(texte).toContain("SIL OPEN FONT LICENSE Version 1.1");
     }

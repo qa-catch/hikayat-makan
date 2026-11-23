@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { MotionLevel } from "@/components/motion/motion-level";
 import { directions, routing } from "@/i18n/routing";
 import { resolveSiteUrl } from "@/shared/seo/site";
-import { texte, titre } from "@/styles/fonts";
+import { affiche, texte, titre } from "@/styles/fonts";
 import "@/styles/globals.css";
 
 // `cover` : le contenu occupe tout l'écran, les zones sûres (encoche, barre de geste) se lisent
@@ -33,7 +33,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   if (!hasLocale(routing.locales, locale)) notFound();
 
   return (
-    <html lang={locale} dir={directions[locale]} className={`${texte.variable} ${titre.variable}`}>
+    <html
+      lang={locale}
+      dir={directions[locale]}
+      className={`${texte.variable} ${titre.variable} ${affiche.variable}`}
+    >
       <body>
         {/*
           Les composants client (liens, chemin courant) ont besoin de la langue. `messages={{}}` :

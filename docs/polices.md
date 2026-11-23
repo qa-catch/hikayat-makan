@@ -1,14 +1,15 @@
-# Polices (T3)
+# Polices (T3, refonte)
 
-Choix : **Noto Kufi Arabic 700** pour les titres, **Noto Sans Arabic 400 et 700** pour le texte. Licence SIL Open Font License 1.1 (sans nom de police réservé), auto-hébergées, sous-ensemblées. Décision : `docs/decisions.md`.
+Choix : **Reem Kufi 700** pour les grands titres (`text-3xl`, `text-2xl`, refonte), **Noto Kufi Arabic 700** pour les petits titres, la marque et les glyphes absents de Reem Kufi, **Noto Sans Arabic 400 et 700** pour le texte. Licence SIL Open Font License 1.1, auto-hébergées, sous-ensemblées. Décision : `docs/decisions.md`.
 
 ## Poids
 
-Trois fichiers woff2 dans `src/styles/fonts/`, **94,2 Kio au total** (budget testé : 100 Kio, `src/styles/fonts.test.ts`).
+Quatre fichiers woff2 dans `src/styles/fonts/`, **112,3 Kio au total** (budget testé : 115 Kio, `src/styles/fonts.test.ts` ; 100 Kio avant la refonte).
 
 | Fichier                      | Usage          | Octets |
 | ---------------------------- | -------------- | ------ |
-| `noto-kufi-arabic-700.woff2` | titres         | 29 468 |
+| `reem-kufi-700.woff2`        | grands titres  | 18 476 |
+| `noto-kufi-arabic-700.woff2` | petits titres  | 29 468 |
 | `noto-sans-arabic-400.woff2` | texte          | 33 132 |
 | `noto-sans-arabic-700.woff2` | texte, emphase | 33 892 |
 
@@ -25,20 +26,31 @@ Mesures du 2026-11-21 sur les fichiers de `github.com/google/fonts` (commit `06b
 | Amiri                | titres     | 255/256    | toutes                          | 111 Kio (700)      | écartée : quatre fois plus lourde                         |
 | Cairo                | texte      | 102/256    | ڭ et ﷺ absents                  | 112 Kio (variable) | écartée : couverture et poids                             |
 | El Messiri           | titres     | 101/256    | ڭ, ﷲ, ﷺ absents                 | 41 Kio (variable)  | écartée : couverture                                      |
-| Reem Kufi            | titres     | 118/256    | ڭ et ﷲ absents                  | 29 Kio (variable)  | écartée : couverture, ج et ب se confondent à 30 px        |
+| Reem Kufi            | titres     | 118/256    | ڭ et ﷲ absents                  | 29 Kio (variable)  | **retenue à la refonte** pour 3xl et 2xl (voir plus bas)  |
 | Tajawal              | texte      | 67/256     | ژ گ چ ڭ absents                 | 17 Kio par graisse | écartée : couverture                                      |
 | Readex Pro           | texte      | 73/256     | ژ گ چ ڭ absents                 | 80 Kio (variable)  | écartée : couverture                                      |
 
 Rendu jugé sur capture à 390 px (titres 30 px, texte 17 px, interligne 1,9) : paire Noto Kufi + Noto Sans la plus homogène, texte net en 400 comme en 700, titre sobre et géométrique, sans caractère folklorique.
 
+## Refonte : Reem Kufi pour les grands titres (2026-11-23)
+
+Police de la direction A (« ليل الحكاية ») du canevas de refonte : coufique géométrique, plus de caractère que Noto Kufi. Les deux défauts relevés en T3 sont contenus ainsi :
+
+- **Couverture** (ڭ, ﷲ, ﷺ absents) : `--font-affiche` place Noto Kufi juste derrière Reem Kufi. Le navigateur choisit la police caractère par caractère : un glyphe absent s'affiche en Noto Kufi, chargé de toute façon pour les petits titres.
+- **ج et ب initiaux proches** : Reem Kufi seulement pour `text-3xl` et `text-2xl` (30 px et plus, `Heading`) ; `text-xl` et `text-lg`, la marque, les cartes de partage restent en Noto Kufi.
+- **Œil plus petit** : à taille égale, le corps des lettres de Reem Kufi est plus bas (م و : 0,40 em contre 0,50 pour Noto Kufi ; ا : 0,81 contre 0,76). `size-adjust: 115 %` le ramène à l'échelle commune : 112 % reste un peu petit, 120 % fait toucher le haut de la ligne à `leading-titre` (captures à 360 px).
+
+Les lettres latines de Reem Kufi viennent de Josefin Sans. À revérifier en T11 avec le reste : le CLS (Reem Kufi est plus étroite que le repli système, les titres peuvent changer de nombre de lignes à la bascule ; les quatre fichiers sont préchargés).
+
 ## Source et licence
 
-| Fichier source (TTF, `google/fonts` `ofl/…`)   | SHA-256                                                            | Source amont                                                                     |
-| ---------------------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| `notokufiarabic/NotoKufiArabic[wght].ttf`      | `494f6b61469d7a02a2d63f0fc4930bb007388d8cfe551de5eb98354e100889f3` | `github.com/notofonts/arabic`, commit `652edd9688496f88c4cf41706c892fe10f9f3c92` |
-| `notosansarabic/NotoSansArabic[wdth,wght].ttf` | `63111b5b2e074dd48cc67692e0a2726d86ee94c1c37fe8598257b7b4e87e869e` | `github.com/notofonts/arabic`, commit `6c8320740db19efbb3127c3697b0ee5d0fa62319` |
+| Fichier source (TTF, `google/fonts` `ofl/…`)      | SHA-256                                                            | Source amont                                                                            |
+| ------------------------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| `notokufiarabic/NotoKufiArabic[wght].ttf`         | `494f6b61469d7a02a2d63f0fc4930bb007388d8cfe551de5eb98354e100889f3` | `github.com/notofonts/arabic`, commit `652edd9688496f88c4cf41706c892fe10f9f3c92`        |
+| `notosansarabic/NotoSansArabic[wdth,wght].ttf`    | `63111b5b2e074dd48cc67692e0a2726d86ee94c1c37fe8598257b7b4e87e869e` | `github.com/notofonts/arabic`, commit `6c8320740db19efbb3127c3697b0ee5d0fa62319`        |
+| `reemkufi/ReemKufi[wght].ttf` (commit `8b0a1d0f`) | `33ead1986cd48c138c4d906c9e5a6341877268461f97623409a2014de1cd4aa4` | `github.com/aliftype/reem-kufi` v2.0, commit `d304c9a381a4b005d9527312c8d51508e57ed0ed` |
 
-Copyright « The Noto Project Authors », OFL 1.1, aucun nom de police réservé : le sous-ensemble peut garder son nom. Les textes de licence sont à côté des fichiers (`OFL-NotoKufiArabic.txt`, `OFL-NotoSansArabic.txt`) : les conserver à chaque redistribution.
+Noto : copyright « The Noto Project Authors », OFL 1.1, aucun nom de police réservé : le sous-ensemble peut garder son nom. Reem Kufi : copyright « The Reem Kufi Project Authors », OFL 1.1, nom réservé **« Josefin Sans »** (ses lettres latines) : le sous-ensemble garde le nom « Reem Kufi » et ne doit jamais s'appeler « Josefin Sans ». Les textes de licence sont à côté des fichiers (`OFL-NotoKufiArabic.txt`, `OFL-NotoSansArabic.txt`, `OFL-ReemKufi.txt`) : les conserver à chaque redistribution.
 
 **Images de partage (T9)** : `opengraph-image.png` et `apple-icon.png` contiennent du texte rendu avec ces polices, pas les polices elles-mêmes. L'OFL 1.1 le permet : « The requirement for fonts to remain under this license does not apply to any document created using the fonts or their derivatives » (préambule de `OFL-NotoKufiArabic.txt`). Aucune licence à joindre aux images.
 
@@ -53,11 +65,13 @@ UNI="U+0020-007E,U+00A0-00FF,U+0152-0153,U+0600-06FF,U+200B-200F,U+2010-2015,U+2
 python -m fontTools.varLib.instancer "NotoKufiArabic[wght].ttf" wght=700 -o kufi-700.ttf
 python -m fontTools.varLib.instancer "NotoSansArabic[wdth,wght].ttf" wght=400 wdth=100 -o sans-400.ttf
 python -m fontTools.varLib.instancer "NotoSansArabic[wdth,wght].ttf" wght=700 wdth=100 -o sans-700.ttf
+python -m fontTools.varLib.instancer "ReemKufi[wght].ttf" wght=700 -o reem-700.ttf
 
 # Sous-ensemble woff2
 pyftsubset kufi-700.ttf --unicodes="$UNI" --flavor=woff2 --layout-features='*' --no-hinting --desubroutinize --output-file=noto-kufi-arabic-700.woff2
 pyftsubset sans-400.ttf --unicodes="$UNI" --flavor=woff2 --layout-features='*' --no-hinting --desubroutinize --output-file=noto-sans-arabic-400.woff2
 pyftsubset sans-700.ttf --unicodes="$UNI" --flavor=woff2 --layout-features='*' --no-hinting --desubroutinize --output-file=noto-sans-arabic-700.woff2
+pyftsubset reem-700.ttf --unicodes="$UNI" --flavor=woff2 --layout-features='*' --no-hinting --desubroutinize --output-file=reem-kufi-700.woff2
 ```
 
 Un caractère hors de ce jeu s'affiche dans la police système : l'ajouter à `UNI`, régénérer, puis relancer `pnpm test` (budget de poids).
@@ -65,9 +79,9 @@ Un caractère hors de ce jeu s'affiche dans la police système : l'ajouter à `U
 ## Chargement
 
 - `next/font/local` (doc : `node_modules/next/dist/docs/01-app/01-getting-started/13-fonts.md`) : fichiers copiés dans `/_next/static/media/`, servis par le site ; aucune requête vers un domaine tiers (E2E `e2e/polices.spec.ts`).
-- `font-display: swap` : jamais de texte invisible. Les trois fichiers sont préchargés (`<link rel="preload">`) : `preload` est un réglage par appel, donc la graisse 700 du texte l'est aussi.
+- `font-display: swap` : jamais de texte invisible. Les quatre fichiers sont préchargés (`<link rel="preload">`) : `preload` est un réglage par appel, donc la graisse 700 du texte l'est aussi.
 - Repli : `system-ui`, `sans-serif`, avec la police de repli métrique générée par Next (Arial). Arial n'a pas de glyphes arabes : l'ajustement ne couvre que le latin.
-- Jetons Tailwind : `font-texte`, `font-titre`, échelle `text-xs` à `text-3xl` (interlignes inclus), graisses `font-normal` (400) et `font-bold` (700) seulement, aucun espacement de lettres (il casse la liaison des lettres arabes). `h1`–`h4` prennent `font-titre` et `text-wrap: balance`.
+- Jetons Tailwind : `font-texte`, `font-titre`, `font-affiche` (Reem Kufi, `size-adjust` 115 %, posé par `Heading` sur 3xl et 2xl), échelle `text-xs` à `text-3xl` (interlignes inclus), graisses `font-normal` (400) et `font-bold` (700) seulement, aucun espacement de lettres (il casse la liaison des lettres arabes). `h1`–`h4` prennent `font-titre` et `text-wrap: balance`.
 
 ## Décalage de mise en page (CLS)
 
