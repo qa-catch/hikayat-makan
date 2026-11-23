@@ -41,10 +41,15 @@ function khatam(radius: number, rotationDeg: number): Segment[] {
 }
 
 /** Contour d'une étoile à huit branches pleine : seize sommets, pointes à `radius`. */
-function starOutline(radius: number, rotationDeg: number): Point[] {
-  return Array.from({ length: 16 }, (_, k) =>
-    polar(k % 2 === 0 ? radius : radius * INNER_RATIO, rotationDeg + k * 22.5),
-  );
+export function starOutline(
+  radius: number,
+  rotationDeg: number,
+  [cx, cy]: Point = [0, 0],
+): Point[] {
+  return Array.from({ length: 16 }, (_, k) => {
+    const [x, y] = polar(k % 2 === 0 ? radius : radius * INNER_RATIO, rotationDeg + k * 22.5);
+    return [round(cx + x), round(cy + y)] as const;
+  });
 }
 
 const innerRadius = OUTER_RADIUS * INNER_RATIO;
