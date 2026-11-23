@@ -10,6 +10,8 @@ const variants = {
   primary: "bg-bleu text-white hover:bg-bleu-profond",
   secondary: "border border-bleu bg-white text-bleu hover:bg-bleu-clair hover:text-bleu-profond",
   ghost: "text-bleu hover:bg-bleu-clair hover:text-bleu-profond",
+  /** Sur une section nuit : le bleu n'y passe pas, texte nuit sur safran. */
+  nuit: "bg-safran text-nuit hover:bg-safran-clair",
 } as const;
 
 export type ButtonVariant = keyof typeof variants;

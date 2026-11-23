@@ -22,7 +22,7 @@ export function OgCard() {
       <ZelligeMedallion className="absolute -end-36 top-1/2 size-[560px] -translate-y-1/2 text-safran" />
       <div className="relative flex max-w-[680px] flex-col gap-8 ps-24">
         <BrandMark tone="dark" className="size-32" />
-        <p className="font-titre text-[96px] leading-tight font-bold text-chaux">{t("title")}</p>
+        <p className="font-affiche text-[96px] leading-tight font-bold text-chaux">{t("title")}</p>
         <p className="text-[34px] leading-normal text-bleu-clair">{t("description")}</p>
       </div>
     </div>

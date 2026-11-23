@@ -1,6 +1,6 @@
 # Polices (T3, refonte)
 
-Choix : **Reem Kufi 700** pour les grands titres (`text-3xl`, `text-2xl`, refonte), **Noto Kufi Arabic 700** pour les petits titres, la marque et les glyphes absents de Reem Kufi, **Noto Sans Arabic 400 et 700** pour le texte. Licence SIL Open Font License 1.1, auto-hébergées, sous-ensemblées. Décision : `docs/decisions.md`.
+Choix : **Reem Kufi 700** pour les grands titres (`text-3xl`, `text-2xl`) et la marque (en-tête, pied de page, image de partage), **Noto Kufi Arabic 700** pour les petits titres et les glyphes absents de Reem Kufi, **Noto Sans Arabic 400 et 700** pour le texte. Licence SIL Open Font License 1.1, auto-hébergées, sous-ensemblées. Décision : `docs/decisions.md`.
 
 ## Poids
 
@@ -37,7 +37,7 @@ Rendu jugé sur capture à 390 px (titres 30 px, texte 17 px, interligne 1,9) : 
 Police de la direction A (« ليل الحكاية ») du canevas de refonte : coufique géométrique, plus de caractère que Noto Kufi. Les deux défauts relevés en T3 sont contenus ainsi :
 
 - **Couverture** (ڭ, ﷲ, ﷺ absents) : `--font-affiche` place Noto Kufi juste derrière Reem Kufi. Le navigateur choisit la police caractère par caractère : un glyphe absent s'affiche en Noto Kufi, chargé de toute façon pour les petits titres.
-- **ج et ب initiaux proches** : Reem Kufi seulement pour `text-3xl` et `text-2xl` (30 px et plus, `Heading`) ; `text-xl` et `text-lg`, la marque, les cartes de partage restent en Noto Kufi.
+- **ج et ب initiaux proches** : Reem Kufi seulement pour `text-3xl` et `text-2xl` (30 px et plus, `Heading`) ; `text-xl` et `text-lg` restent en Noto Kufi. Exception : la marque « حكاية مكان » (texte fixe, sans ج ni ب), en `font-affiche` à toutes les tailles.
 - **Œil plus petit** : à taille égale, le corps des lettres de Reem Kufi est plus bas (م و : 0,40 em contre 0,50 pour Noto Kufi ; ا : 0,81 contre 0,76). `size-adjust: 115 %` le ramène à l'échelle commune : 112 % reste un peu petit, 120 % fait toucher le haut de la ligne à `leading-titre` (captures à 360 px).
 
 Les lettres latines de Reem Kufi viennent de Josefin Sans. À revérifier en T11 avec le reste : le CLS (Reem Kufi est plus étroite que le repli système, les titres peuvent changer de nombre de lignes à la bascule ; les quatre fichiers sont préchargés).

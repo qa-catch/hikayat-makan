@@ -170,10 +170,11 @@ Plateforme seule, aucune bibliothèque (choix et sources : `docs/decisions.md`).
 
 ### Refonte : direction artistique (2026-11-23)
 
-Trois directions comparées sur un canevas (A « ليل الحكاية » nuit cinématique, B « ضوء الجير » lumière éditoriale, C « زليج حيّ » zellige graphique) ; retenu : un mélange. Première étape : les couleurs ; deuxième : les polices ; la mise en page suivra dans sa PR.
+Trois directions comparées sur un canevas (A « ليل الحكاية » nuit cinématique, B « ضوء الجير » lumière éditoriale, C « زليج حيّ » zellige graphique) ; retenu : un mélange. Trois étapes, une PR chacune : couleurs, polices, mise en page des sections nuit.
 
 - **Fond** : chaux partout ; sections pleine largeur en `nuit` (A) pour l'accueil et le récit. Ce n'est pas un mode sombre : la page reste en `color-scheme: light`.
 - **Dominante** : cobalt `#1d3f8f` (C), porté par les jetons `bleu` existants (`bleu-profond` `#142c66`, `bleu-clair` `#dfe6f5`) : aucun composant à renommer.
 - **Accents** (portes, chapitres, illustrations) : `emeraude`, `safran` ; sur nuit, `emeraude-nuit` `#45b88f` (A), illisible sur fond clair. `ocre` reste disponible, la terre cuite de B et C n'est pas retenue.
 - **Sur nuit** : texte `chaux`, secondaire `chaux-douce` ; surfaces `nuit-claire` ; focus et liens en `safran` (le cobalt n'y atteint que 1,9:1) ; texte `nuit` sur bouton `safran`.
-- **Polices** (2e étape) : grands titres (`text-3xl`, `text-2xl`) en Reem Kufi 700 (A), ramenée à l'échelle par `size-adjust` 115 % ; Noto Kufi reste pour les petits titres, la marque et les glyphes absents de Reem Kufi ; texte inchangé (Noto Sans Arabic). Détail : `docs/polices.md`.
+- **Polices** (2e étape) : grands titres (`text-3xl`, `text-2xl`) en Reem Kufi 700 (A), ramenée à l'échelle par `size-adjust` 115 % ; la marque aussi (texte fixe) ; Noto Kufi reste pour les petits titres et les glyphes absents de Reem Kufi ; texte inchangé (Noto Sans Arabic). Détail : `docs/polices.md`.
+- **Mise en page** (3e étape) : utilitaire `surface-nuit` (fond `nuit`, texte `chaux`, focus `safran` via `--couleur-focus`) sur la scène d'ouverture de l'accueil, le récit (toutes les scènes d'une histoire, en-tête et suite restent sur chaux) et le pied de page. Bouton `variant="nuit"` (texte `nuit` sur `safran`). Le ciel de l'illustration « porte » passe en `nuit` : il prolonge la section d'accueil sans couture. `LongText` hérite sa couleur.

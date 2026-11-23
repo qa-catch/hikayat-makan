@@ -37,7 +37,7 @@ export function Accueil() {
         data-testid="gabarit-accueil-hero"
         className="flex min-h-[calc(100dvh_-_3.5rem_-_1px_-_env(safe-area-inset-top)_-_var(--spacing-nav)_-_env(safe-area-inset-bottom))] flex-col-reverse md:min-h-[calc(100dvh_-_3.5rem_-_1px_-_env(safe-area-inset-top))] md:flex-row"
       >
-        <div className="flex flex-1 flex-col justify-center gap-6 bg-bleu-profond py-8 text-chaux md:py-section max-md:px-[max(var(--spacing-gutter),env(safe-area-inset-left),env(safe-area-inset-right))] md:basis-1/2 md:px-16">
+        <div className="flex flex-1 flex-col justify-center gap-6 surface-nuit py-8 md:py-section max-md:px-[max(var(--spacing-gutter),env(safe-area-inset-left),env(safe-area-inset-right))] md:basis-1/2 md:px-16">
           <div>
             <Badge tone="safran">{ui("demo")}</Badge>
           </div>
@@ -50,7 +50,7 @@ export function Accueil() {
           <div>
             <ButtonLink
               href={gabaritPaths.histoire}
-              variant="secondary"
+              variant="nuit"
               data-testid="gabarit-accueil-cta"
             >
               {t("cta")}

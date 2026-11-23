@@ -186,12 +186,25 @@ body {
   }
 }
 
-/* Focus clavier visible partout (2 px, décalé) ; les composants à focus propre le déplacent sur leur cadre. */
+/*
+ * Focus clavier visible partout (2 px, décalé) ; les composants à focus propre le déplacent sur leur
+ * cadre. `--couleur-focus` : redéfinie par `surface-nuit`.
+ */
 @layer base {
   :focus-visible {
-    outline: 2px solid var(--color-bleu);
+    outline: 2px solid var(--couleur-focus, var(--color-bleu));
     outline-offset: 2px;
   }
+}
+
+/*
+ * Section nuit pleine largeur (refonte, direction A : accueil, récit, pied de page). Pas un mode
+ * sombre : la page reste claire. Texte chaux ; focus safran (le bleu n'y atteint que 1,9:1).
+ */
+@utility surface-nuit {
+  background-color: var(--color-nuit);
+  color: var(--color-chaux);
+  --couleur-focus: var(--color-safran);
 }
 
 /*

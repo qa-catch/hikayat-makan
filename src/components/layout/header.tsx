@@ -30,7 +30,7 @@ export function Header({ items }: { items: readonly NavItem[] }) {
         <Link
           href="/"
           data-testid="site-header-brand"
-          className="inline-flex min-h-touch items-center gap-2 font-titre text-lg font-bold text-bleu-profond"
+          className="inline-flex min-h-touch items-center gap-2 font-affiche text-lg font-bold text-bleu-profond"
         >
           <BrandMark className="size-8" />
           {t("brand")}

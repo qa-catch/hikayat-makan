@@ -21,7 +21,7 @@ export const texte = localFont({
   fallback: ["system-ui", "sans-serif"],
 });
 
-/** Petits titres (xl, lg) et marque ; repli des glyphes absents de Reem Kufi (ڭ ﷲ ﷺ). */
+/** Petits titres (xl, lg) ; repli des glyphes absents de Reem Kufi (ڭ ﷲ ﷺ). */
 export const titre = localFont({
   src: [{ path: "./fonts/noto-kufi-arabic-700.woff2", weight: "700", style: "normal" }],
   variable: "--police-titre",
