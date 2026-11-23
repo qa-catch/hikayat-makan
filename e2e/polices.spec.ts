@@ -21,7 +21,7 @@ test("les polices viennent du site, sans domaine tiers", async ({ page, baseURL 
         .map((regle) => regle.style.getPropertyValue("font-display")),
     ),
   );
-  expect(affichages.length).toBeGreaterThanOrEqual(3);
+  expect(affichages.length).toBeGreaterThanOrEqual(4);
   for (const affichage of affichages) expect(["swap", "fallback", "optional"]).toContain(affichage);
 
   // Chargement forcé de chaque police déclarée : elle doit être servie par le site.
@@ -30,7 +30,7 @@ test("les polices viennent du site, sans domaine tiers", async ({ page, baseURL 
     await Promise.all(faces.map((face) => face.load()));
     return faces.map((face) => face.status);
   });
-  expect(etats).toHaveLength(3);
+  expect(etats).toHaveLength(4);
   expect(etats.every((etat) => etat === "loaded")).toBe(true);
 
   const fichiers = await page.evaluate(() =>
@@ -39,7 +39,7 @@ test("les polices viennent du site, sans domaine tiers", async ({ page, baseURL 
       .map((entree) => entree.name)
       .filter((url) => url.endsWith(".woff2")),
   );
-  expect(fichiers).toHaveLength(3);
+  expect(fichiers).toHaveLength(4);
   for (const url of fichiers) expect(new URL(url).origin).toBe(origine);
 
   expect(tiers).toEqual([]);
