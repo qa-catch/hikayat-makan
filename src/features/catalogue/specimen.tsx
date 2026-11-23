@@ -1,6 +1,7 @@
 import { useId, type ReactNode } from "react";
 import { Heading } from "@/components/ui/heading";
-import { ZelligeMedallion } from "@/components/zellige/zellige";
+import type { Tone } from "@/features/gabarits/demo-data";
+import { DemoIllustration } from "./illustrations";
 
 /** Section du catalogue : un composant et tous ses états. */
 export function Section({
@@ -37,35 +38,14 @@ export function Specimen({ label, children }: { label: string; children: ReactNo
   );
 }
 
-/** Visuel factice : un dégradé produit par le projet, jamais une photo. */
-const demoTones = {
-  bleu: "bg-linear-to-br from-bleu to-emeraude",
-  emeraude: "bg-linear-to-br from-emeraude to-bleu",
-  ocre: "bg-linear-to-br from-ocre to-safran",
-} as const;
-
 /**
- * `detail` : un médaillon de zellige posé à ce point (en % depuis le coin haut gauche), seul
- * accent du visuel ; rend visibles le zoom et le déplacement d'une scène (`Scene`).
+ * Visuel factice : une illustration plate dessinée par le projet (`illustrations.tsx`), jamais une
+ * photo. Ses détails rendent visibles le zoom et le déplacement d'une scène (`Scene`).
  */
-export function DemoVisual({
-  tone = "bleu",
-  detail,
-}: {
-  tone?: keyof typeof demoTones;
-  detail?: { x: number; y: number };
-}) {
+export function DemoVisual({ tone = "bleu" }: { tone?: Tone }) {
   return (
-    <div className={`relative h-full w-full ${demoTones[tone]}`}>
-      {detail && (
-        // Coordonnées physiques : une image ne s'inverse pas en RTL.
-        <span
-          className="absolute size-20 -translate-1/2"
-          style={{ left: `${detail.x}%`, top: `${detail.y}%` }}
-        >
-          <ZelligeMedallion className="size-full text-white" />
-        </span>
-      )}
+    <div className="relative h-full w-full overflow-hidden bg-chaux-sombre">
+      <DemoIllustration tone={tone} />
     </div>
   );
 }

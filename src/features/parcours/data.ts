@@ -51,7 +51,8 @@ export const parcoursPlaces: readonly ParcoursPlace[] = [
           title: "مشهد تجريبي ثانٍ",
           tone: "bleu",
           effect: "zoom",
-          focus: { x: 30, y: 35 },
+          // La lumière au fond de la porte.
+          focus: { x: 50, y: 72 },
           text: "نص تجريبي قصير يقترب من تفصيل في الصورة.",
         },
         {
@@ -96,7 +97,8 @@ export const parcoursPlaces: readonly ParcoursPlace[] = [
           title: "مشهد تجريبي ثالث",
           tone: "bleu",
           effect: "zoom",
-          focus: { x: 65, y: 40 },
+          // L'étoile au-dessus de l'arc.
+          focus: { x: 62, y: 35 },
           text: "نص تجريبي قصير يختم الرواية ويعيد إلى المكان الأول.",
         },
       ],

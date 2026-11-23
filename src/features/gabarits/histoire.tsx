@@ -21,8 +21,6 @@ import { GabaritPage } from "./shell";
  * parcours. Chaque scène est une `Scene` : visuel fixé qui se transforme au défilement.
  */
 
-/** Médaillon d'une scène `pan` : le regard va de droite à gauche (RTL), le visuel glisse vers la droite. */
-const PAN_DETAIL = { x: 40, y: 50 };
 export function Histoire() {
   const t = useTranslations("Gabarits.histoire");
   const cards = useTranslations("Cards");
@@ -49,12 +47,7 @@ export function Histoire() {
           testId={`gabarit-histoire-scene-${scene.id}`}
           effect={scene.effect}
           focus={scene.focus}
-          visual={
-            <DemoVisual
-              tone={scene.tone}
-              detail={scene.effect === "appear" ? undefined : (scene.focus ?? PAN_DETAIL)}
-            />
-          }
+          visual={<DemoVisual tone={scene.tone} />}
         >
           <Heading level={2}>{scene.title}</Heading>
           <LongText paragraphs={scene.paragraphs} />
