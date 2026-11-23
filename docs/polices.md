@@ -40,6 +40,8 @@ Rendu jugé sur capture à 390 px (titres 30 px, texte 17 px, interligne 1,9) : 
 
 Copyright « The Noto Project Authors », OFL 1.1, aucun nom de police réservé : le sous-ensemble peut garder son nom. Les textes de licence sont à côté des fichiers (`OFL-NotoKufiArabic.txt`, `OFL-NotoSansArabic.txt`) : les conserver à chaque redistribution.
 
+**Images de partage (T9)** : `opengraph-image.png` et `apple-icon.png` contiennent du texte rendu avec ces polices, pas les polices elles-mêmes. L'OFL 1.1 le permet : « The requirement for fonts to remain under this license does not apply to any document created using the fonts or their derivatives » (préambule de `OFL-NotoKufiArabic.txt`). Aucune licence à joindre aux images.
+
 ## Régénérer les fichiers
 
 Outils : `pip install fonttools brotli` (hors projet, aucune dépendance ajoutée). Jeu de caractères : arabe (U+0600–06FF), latin de base et Latin-1, œ, espaces et ponctuation typographiques, ﷲ ﷺ.
