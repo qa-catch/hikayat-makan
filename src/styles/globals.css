@@ -22,14 +22,22 @@
   --color-encre: #1b2433;
   --color-encre-douce: #4a5568;
 
-  /* Dominante : bleu profond. */
-  --color-bleu: #123a6b;
-  --color-bleu-profond: #0b2545;
-  --color-bleu-clair: #dce6f3;
+  /* Dominante : bleu cobalt (refonte, direction C). */
+  --color-bleu: #1d3f8f;
+  --color-bleu-profond: #142c66;
+  --color-bleu-clair: #dfe6f5;
+
+  /* Sections nuit (refonte, direction A) : fonds pleine largeur, jamais un mode sombre. */
+  --color-nuit: #0a1422;
+  --color-nuit-claire: #12213a;
+  /* Texte secondaire sur nuit. */
+  --color-chaux-douce: #b9c0cc;
 
   /* Accents. */
   --color-emeraude: #0b6b4f;
   --color-emeraude-clair: #d5ebe2;
+  /* Émeraude lisible sur nuit seulement. */
+  --color-emeraude-nuit: #45b88f;
   --color-ocre: #7a4f18;
   --color-ocre-clair: #ebd9bc;
   --color-safran: #e8a317;
