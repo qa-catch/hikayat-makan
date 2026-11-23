@@ -22,6 +22,7 @@ describe("Button", () => {
     expect(render(<Button disabled>x</Button>)).toContain("disabled");
     expect(render(<Button variant="secondary">x</Button>)).toContain("border-bleu");
     expect(render(<Button variant="ghost">x</Button>)).toContain("text-bleu");
+    expect(render(<Button variant="nuit">x</Button>)).toContain("bg-safran");
   });
 
   it("ButtonLink est un lien de 44 px, pas un bouton", () => {

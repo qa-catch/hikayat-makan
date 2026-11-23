@@ -47,7 +47,7 @@ function Porte() {
   const merlons = [127, 149, 171, 193, 215, 237, 259];
   return (
     <>
-      <rect width={400} height={300} className="fill-bleu-profond" />
+      <rect width={400} height={300} className="fill-nuit" />
       {(
         [
           [60, 40, 3],
@@ -62,7 +62,7 @@ function Porte() {
         <Star key={`${x}-${y}`} x={x} y={y} r={r} className="fill-chaux" />
       ))}
       <circle cx={296} cy={42} r={20} className="fill-safran" />
-      <circle cx={305} cy={35} r={17} className="fill-bleu-profond" />
+      <circle cx={305} cy={35} r={17} className="fill-nuit" />
       <path
         d="M0 300V205H28V180H70V198H96V160H125V300ZM275 300V170H305V195H335V175H372V210H400V300Z"
         className="fill-bleu"

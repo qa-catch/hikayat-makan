@@ -41,18 +41,23 @@ export function Histoire() {
         </header>
       </SplitLayout>
 
-      {demoStory.scenes.map((scene) => (
-        <Scene
-          key={scene.id}
-          testId={`gabarit-histoire-scene-${scene.id}`}
-          effect={scene.effect}
-          focus={scene.focus}
-          visual={<DemoVisual tone={scene.tone} />}
-        >
-          <Heading level={2}>{scene.title}</Heading>
-          <LongText paragraphs={scene.paragraphs} />
-        </Scene>
-      ))}
+      {/* Récit : section nuit pleine largeur (refonte), en-tête et suite restent sur chaux. */}
+      <div className="surface-nuit">
+        {demoStory.scenes.map((scene) => (
+          <Scene
+            key={scene.id}
+            testId={`gabarit-histoire-scene-${scene.id}`}
+            effect={scene.effect}
+            focus={scene.focus}
+            visual={<DemoVisual tone={scene.tone} />}
+          >
+            <Heading level={2} tone="inverse">
+              {scene.title}
+            </Heading>
+            <LongText paragraphs={scene.paragraphs} />
+          </Scene>
+        ))}
+      </div>
 
       <SplitLayout testId="gabarit-histoire-suite">
         <SourceList sources={demoSources} />

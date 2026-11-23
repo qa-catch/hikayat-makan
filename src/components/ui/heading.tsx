@@ -17,7 +17,7 @@ const defaultSize: Record<1 | 2 | 3 | 4, HeadingSize> = { 1: "3xl", 2: "2xl", 3:
 type HeadingProps = Omit<ComponentProps<"h1">, "dir"> & {
   level: 1 | 2 | 3 | 4;
   size?: HeadingSize;
-  /** `inverse` : blanc, pour un fond bleu profond, bleu, émeraude ou ocre (paires vérifiées en AA). */
+  /** `inverse` : blanc, pour un fond nuit, bleu profond, bleu, émeraude ou ocre (paires vérifiées en AA). */
   tone?: "default" | "inverse";
 };
 

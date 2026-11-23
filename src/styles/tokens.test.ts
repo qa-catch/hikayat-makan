@@ -75,6 +75,8 @@ const pairs: [text: string, background: string, min: number][] = [
     ["emeraude-nuit", bg, TEXT],
   ]),
   ["nuit", "safran", TEXT],
+  ["nuit", "safran-clair", TEXT],
+  ["white", "nuit", TEXT],
 ];
 
 describe("contraste AA des jetons de couleur", () => {

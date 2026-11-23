@@ -86,6 +86,13 @@ export function Catalogue() {
                   {demo("buttonLabel")}
                 </Button>
               </Specimen>
+              <Specimen label={s("night")}>
+                <div className="rounded-md surface-nuit p-4">
+                  <Button variant="nuit" data-testid="catalogue-button-nuit">
+                    {demo("buttonLabel")}
+                  </Button>
+                </div>
+              </Specimen>
               <Specimen label={s("disabled")}>
                 <Button disabled data-testid="catalogue-button-disabled">
                   {demo("buttonLabel")}

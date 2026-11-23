@@ -12,13 +12,13 @@ export function Footer({ links = [] }: { links?: readonly FooterLink[] }) {
   return (
     <footer
       data-testid="site-footer"
-      className="mt-section bg-bleu-profond py-section text-chaux pb-[max(var(--spacing-section),env(safe-area-inset-bottom))]"
+      className="mt-section surface-nuit py-section pb-[max(var(--spacing-section),env(safe-area-inset-bottom))]"
     >
       <Container className="space-y-4">
         {/* Accent : un trait safran, jamais un fond (le zellige arrive en T5). */}
         <div aria-hidden="true" className="h-1 w-12 rounded-full bg-safran" />
-        <p className="font-titre text-xl font-bold text-white">{t("brand")}</p>
-        <p className="max-w-prose text-sm text-bleu-clair">{meta("description")}</p>
+        <p className="font-affiche text-xl font-bold text-white">{t("brand")}</p>
+        <p className="max-w-prose text-sm text-chaux-douce">{meta("description")}</p>
         {links.length > 0 && (
           <nav aria-label={t("footerNav")} data-testid="nav-footer">
             <ul className="flex flex-wrap gap-x-6">
@@ -27,7 +27,7 @@ export function Footer({ links = [] }: { links?: readonly FooterLink[] }) {
                   <Link
                     href={link.href}
                     data-testid={`nav-footer-${link.id}`}
-                    className="inline-flex min-h-touch items-center text-white underline decoration-1 underline-offset-4 outline-safran"
+                    className="inline-flex min-h-touch items-center text-white underline decoration-1 underline-offset-4"
                   >
                     {link.label}
                   </Link>

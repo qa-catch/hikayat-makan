@@ -56,38 +56,43 @@ export function ParcoursHistoire({ place }: { place: ParcoursPlace }) {
         </header>
       </SplitLayout>
 
-      {story.scenes.map((scene, index) => (
-        <Scene
-          key={scene.id}
-          testId={`parcours-scene-${scene.id}`}
-          effect={scene.effect}
-          focus={scene.focus}
-          visual={<DemoVisual tone={scene.tone} />}
-        >
-          {/* Progression sans animation : un trait par scène, de droite à gauche, et le texte. */}
-          <p
-            data-testid={`parcours-scene-${scene.id}-progress`}
-            className="flex items-center gap-3 text-sm font-bold text-encre-douce"
+      {/* Récit : section nuit pleine largeur (refonte), en-tête et suite restent sur chaux. */}
+      <div className="surface-nuit">
+        {story.scenes.map((scene, index) => (
+          <Scene
+            key={scene.id}
+            testId={`parcours-scene-${scene.id}`}
+            effect={scene.effect}
+            focus={scene.focus}
+            visual={<DemoVisual tone={scene.tone} />}
           >
-            <span aria-hidden="true" className="flex gap-1">
-              {story.scenes.map((step, stepIndex) => (
-                <span
-                  key={step.id}
-                  className={cn(
-                    "h-1.5 w-6 rounded-full",
-                    stepIndex <= index ? "bg-bleu" : "bg-chaux-sombre",
-                  )}
-                />
-              ))}
-            </span>
-            {t("progress", { current: formatNumber(index + 1), total: formatNumber(total) })}
-          </p>
-          <Heading level={2}>{scene.title}</Heading>
-          <p dir="auto" className="text-lg">
-            {scene.text}
-          </p>
-        </Scene>
-      ))}
+            {/* Progression sans animation : un trait par scène, de droite à gauche, et le texte. */}
+            <p
+              data-testid={`parcours-scene-${scene.id}-progress`}
+              className="flex items-center gap-3 text-sm font-bold text-chaux-douce"
+            >
+              <span aria-hidden="true" className="flex gap-1">
+                {story.scenes.map((step, stepIndex) => (
+                  <span
+                    key={step.id}
+                    className={cn(
+                      "h-1.5 w-6 rounded-full",
+                      stepIndex <= index ? "bg-safran" : "bg-encre-douce",
+                    )}
+                  />
+                ))}
+              </span>
+              {t("progress", { current: formatNumber(index + 1), total: formatNumber(total) })}
+            </p>
+            <Heading level={2} tone="inverse">
+              {scene.title}
+            </Heading>
+            <p dir="auto" className="text-lg">
+              {scene.text}
+            </p>
+          </Scene>
+        ))}
+      </div>
 
       <SplitLayout testId="parcours-histoire-suite">
         <SourceList sources={demoSources} />
